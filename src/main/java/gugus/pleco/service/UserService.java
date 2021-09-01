@@ -7,10 +7,10 @@ import gugus.pleco.domain.User;
 
 public interface UserService extends UserDetailsService {
 
-    Long join(UserDto userDto) throws UserDupulicatedException;
+    User join(UserDto userDto) throws UserDupulicatedException;
 
 
-    Long login(UserDto userDto);
+    User login(UserDto userDto);
 
     User findById(Long id);
 }

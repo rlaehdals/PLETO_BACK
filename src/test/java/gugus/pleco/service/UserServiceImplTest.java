@@ -72,17 +72,11 @@ class UserServiceImplTest {
     }
 
     @Test
-    void UsernameFind(){
-        User user = userRepository.findByUsername("rkdlem48@gmail.com").get();
-
-        assertThat(user.getPassword()).isEqualTo("asdf");
-    }
-    @Test
     void join(){
         UserDto userDto = new UserDto("rlaehdals@gmail.com","asdf");
-        Long join = userService.join(userDto);
+        User user = userService.join(userDto);
 
-        User user = userService.findById(join);
+
 
         assertThat(userDto.getEmail()).isEqualTo(user.getUsername());
 
@@ -99,11 +93,11 @@ class UserServiceImplTest {
     @Test
     void loginSuccess(){
         UserDto userDto = new UserDto("rkdlem48@gmail.com","asdf");
-        Long loginUserId = userService.login(userDto);
+        User saveUser = userService.login(userDto);
 
         User user = userRepository.findByUsername("rkdlem48@gmail.com").get();
 
-        assertThat(loginUserId).isEqualTo(user.getId());
+        assertThat(saveUser.getId()).isEqualTo(user.getId());
     }
 
     @Test

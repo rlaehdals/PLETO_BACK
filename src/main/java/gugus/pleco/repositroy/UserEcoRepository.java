@@ -11,7 +11,8 @@ import java.util.Optional;
 
 public interface UserEcoRepository extends JpaRepository<UserEco, Long> {
 
-    List<UserEco> findByUser(User user);
+    @Query("select uc from UserEco uc join fetch uc.user where uc.user.username  = :username order by uc.id")
+    List<UserEco> findByUsername(String username);
 
     @Query("select uc from UserEco  uc join fetch uc.user join fetch uc.eco where uc.user.username= :useranme and uc.eco.ecoName= :ecoName")
     Optional<UserEco> findByUserAndEcoName(@Param("useranme")String username, @Param("ecoName") String ecoName);

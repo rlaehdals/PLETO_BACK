@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Long join(UserDto userDto) throws UserDupulicatedException{
+    public User join(UserDto userDto) throws UserDupulicatedException{
         userRepository.findByUsername(userDto.getEmail())
                 .ifPresent(m->{
                     throw new UserDupulicatedException("이미 있는 아이디");
@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserService{
             UserEco eco1 = UserEco.createEco(user, eco);
             userEcoRepository.save(eco1);
         }
-        return user.getId();
+        return user;
     }
 
     @Override
-    public Long login(UserDto userDto) {
+    public User login(UserDto userDto) {
         User user = userRepository.findByUsername(userDto.getEmail())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
         if(!passwordEncoder.matches(userDto.getPassword(),user.getPassword())){
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
-        return user.getId();
+        return user;
     }
 
     @Override

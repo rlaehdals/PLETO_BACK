@@ -11,4 +11,6 @@ import java.util.Optional;
 
 public interface PleeRepository extends JpaRepository<Plee, Long> {
     List<Plee> findByUser(User user);
+
+    Optional<Plee> findByPleeName(String pleeName);
 }

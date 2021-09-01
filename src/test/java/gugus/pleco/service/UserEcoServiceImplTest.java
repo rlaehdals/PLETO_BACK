@@ -51,7 +51,7 @@ class UserEcoServiceImplTest {
         Long pleeId = pleeService.createGrowPlee(email, "장미", 10L);
 
         //when
-        userEcoService.performEco(email, tumbler.getEcoName());
+        userEcoService.performEco(email, tumbler.getEcoName(), "장미");
 
         //then
         // 플리의 에코 카운트가 증가해야한다.
@@ -70,12 +70,12 @@ class UserEcoServiceImplTest {
         Long pleeId = pleeService.createGrowPlee(email, "장미", 10L);
 
         // 첫 번째 에코 수행
-        userEcoService.performEco(email, tumbler.getEcoName());
+        userEcoService.performEco(email, tumbler.getEcoName(),"장미");
 
         //when
         // 첫 번째 에코 수행 후 바로 두 번째 에코 수행
         Throwable e = assertThrows(TimeDissatisfactionException.class,
-                () -> userEcoService.performEco(email, tumbler.getEcoName()));
+                () -> userEcoService.performEco(email, tumbler.getEcoName(),"장미"));
 
         //then
         String message = e.getMessage();
