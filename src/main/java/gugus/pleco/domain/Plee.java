@@ -1,5 +1,6 @@
 package gugus.pleco.domain;
 
+import gugus.pleco.excetion.ExceedEcoException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class Plee {
     @Column(name = "eco_count")
     private Long ecoCount;
 
+    @Column(name = "complete_count")
+    private Long completeCount;
+
     @Enumerated(EnumType.STRING)
     private PleeStatus pleeStatus;
 
@@ -35,17 +39,44 @@ public class Plee {
     }
 
     //연관 관계 로직
-    public void setUser(User user){
+    private void setUser(User user){
         this.user=user;
         user.pleeList.add(this);
     }
 
+    private void setGrow(Long completeCount) {
+        this.ecoCount = 0L;
+        this.completeCount = completeCount;
+        this.pleeStatus = PleeStatus.GROWING;
+    }
+
     //생성 로직
-    public static Plee createPlee(User user, String pleeName){
+    public static Plee createPlee(User user, String pleeName, Long completeCount){
         Plee plee = new Plee();
         plee.setUser(user);
         plee.setPleeName(pleeName);
+        plee.setGrow(completeCount);
+
         return plee;
+    }
+
+    // eco 증가 로직
+    public void addEcoCount(){
+
+//        // complete 일 경우 예외
+//        if (this.ecoCount >= this.completeCount) {
+//            throw new ExceedEcoException("exceed complete count");
+//        }
+
+        this.ecoCount += 1;
+
+        if (this.ecoCount >= this.completeCount) {
+            complete();
+        }
+    }
+
+    private void complete() {
+        this.pleeStatus = PleeStatus.COMPLETE;
     }
 
 }
