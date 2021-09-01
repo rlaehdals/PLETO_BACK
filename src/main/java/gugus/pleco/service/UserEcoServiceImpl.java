@@ -32,7 +32,7 @@ public class UserEcoServiceImpl implements UserEcoService {
     private final PleeServiceImpl pleeService;
 
     @Override
-    public void confirmCoolTime(String username, String ecoName) throws TimeDissatisfactionException {
+    public void performEco(String username, String ecoName) throws TimeDissatisfactionException {
         //페치 조인써서 쿼리 최적화
         UserEco userEco = userEcoRepository.findByUserAndEcoName(username, ecoName).get();
         // 최근에 수행한 시간 performTime 가져오기

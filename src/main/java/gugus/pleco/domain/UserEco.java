@@ -48,6 +48,7 @@ public class UserEco {
         UserEco userEco = new UserEco();
         userEco.setEco(eco);
         userEco.setUser(user);
+        userEco.setPerformTime(LocalDateTime.of(0,1,1,0,0));
         return userEco;
     }
 }
