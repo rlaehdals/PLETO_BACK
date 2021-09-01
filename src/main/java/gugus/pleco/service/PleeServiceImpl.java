@@ -48,7 +48,9 @@ public class PleeServiceImpl implements PleeService {
     }
 
     @Override
-    public List<Plee> findAll(User user) {
-        return null;
+    public List<Plee> findAll(String email) {
+
+        User user = userRepository.findByUsername(email).get();
+        return pleeRepository.findByUser(user);
     }
 }

@@ -11,5 +11,5 @@ public interface PleeService {
 
     public Plee getGrowPlee(String email);
 
-    public List<Plee> findAll(User user);
+    public List<Plee> findAll(String email);
 }

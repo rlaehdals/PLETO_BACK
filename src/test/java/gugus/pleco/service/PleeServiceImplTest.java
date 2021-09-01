@@ -1,5 +1,6 @@
 package gugus.pleco.service;
 
+import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
 import gugus.pleco.repositroy.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,7 +59,7 @@ class PleeServiceImplTest {
         Long completeCount = 10L;
 
         //when
-        Long pleeId = pleeService.createGrowPlee(email, pleeName, completeCount);
+        pleeService.createGrowPlee(email, pleeName, completeCount);
 
         //then
         assertThat(pleeService.getGrowPlee(email).getPleeName())
@@ -66,6 +68,26 @@ class PleeServiceImplTest {
                 .isEqualTo(PleeStatus.GROWING);
         assertThat(pleeService.getGrowPlee(email).getCompleteCount())
                 .isEqualTo(completeCount);
+    }
+
+    @Test
+    public void 모든_플리_조회(){
+        //given
+        String email1 = "rkdlem48@gmail.com";
+        String email2 = "asf@gmail.com";
+
+        pleeService.createGrowPlee(email1, "장미", 10L);
+        pleeService.createGrowPlee(email1, "호박", 10L);
+        pleeService.createGrowPlee(email2, "동백", 10L);
+
+        //when
+        List<Plee> plees1 = pleeService.findAll(email1);
+        List<Plee> plees2 = pleeService.findAll(email2);
+
+        //then
+        assertThat(plees1.size()).isEqualTo(2);
+        assertThat(plees2.size()).isEqualTo(1);
+
     }
 
 }
