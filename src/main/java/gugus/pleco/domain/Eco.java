@@ -27,4 +27,21 @@ public class Eco {
     @OneToMany(mappedBy = "eco")
     private List<UserEco> userEcoList = new ArrayList<>();
 
+
+    private void setEcoName(String ecoName) {
+        this.ecoName = ecoName;
+    }
+
+    private void setCoolTime(Long coolTime) {
+        this.coolTime = coolTime;
+    }
+
+    // 생성 로직
+    public static Eco createEco(String ecoName, Long coolTime){
+        Eco eco = new Eco();
+        eco.setEcoName(ecoName);
+        eco.setCoolTime(coolTime);
+        return eco;
+    }
+
 }

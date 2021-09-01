@@ -28,7 +28,7 @@ public class EcoController {
     public UserEcoDto perform(@RequestBody PerformDto performDto){
         LocalDateTime now = LocalDateTime.now();
 
-        userEcoService.confirmCoolTime(performDto.email, performDto.ecoName,now, performDto.getPleeName());
+//        userEcoService.confirmCoolTime(performDto.email, performDto.ecoName,now, performDto.getPleeName());
 
         return new UserEcoDto(HttpStatus.OK, "미션이 완료되었습니다.");
     }
