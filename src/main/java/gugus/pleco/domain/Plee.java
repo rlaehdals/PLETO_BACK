@@ -21,6 +21,9 @@ public class Plee {
     @Column(name = "eco_count")
     private Long ecoCount;
 
+    @Column(name = "complete_count")
+    private Long completeCount;
+
     @Enumerated(EnumType.STRING)
     private PleeStatus pleeStatus;
 
@@ -35,16 +38,24 @@ public class Plee {
     }
 
     //연관 관계 로직
-    public void setUser(User user){
+    private void setUser(User user){
         this.user=user;
         user.pleeList.add(this);
     }
 
+    private void setGrow(Long completeCount) {
+        this.ecoCount = 0L;
+        this.completeCount = completeCount;
+        this.pleeStatus = PleeStatus.GROWING;
+    }
+
     //생성 로직
-    public static Plee createPlee(User user, String pleeName){
+    public static Plee createPlee(User user, String pleeName, Long completeCount){
         Plee plee = new Plee();
         plee.setUser(user);
         plee.setPleeName(pleeName);
+        plee.setGrow(completeCount);
+
         return plee;
     }
 
