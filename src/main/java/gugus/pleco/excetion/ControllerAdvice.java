@@ -29,8 +29,10 @@ public class ControllerAdvice {
         return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
-
-
-
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto notTime(TimeDissatisfactionException e){
+        return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 
 }

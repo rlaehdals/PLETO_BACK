@@ -27,7 +27,4 @@ public class Eco {
     @OneToMany(mappedBy = "eco")
     private List<UserEco> userEcoList = new ArrayList<>();
 
-
-
-
 }

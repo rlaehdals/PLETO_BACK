@@ -3,6 +3,7 @@ package gugus.pleco.service;
 import gugus.pleco.controller.dto.UserDto;
 import gugus.pleco.domain.User;
 import gugus.pleco.excetion.UserDupulicatedException;
+import gugus.pleco.jwt.JwtTokenProvider;
 import gugus.pleco.repositroy.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +36,9 @@ class UserServiceImplTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
 
     @BeforeEach

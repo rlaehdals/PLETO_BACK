@@ -39,6 +39,10 @@ public class UserEco {
         this.eco=eco;
     }
 
+    public void setPerformTime(LocalDateTime performTime){
+        this.performTime=performTime;
+    }
+
     // 생성 로직  user가 회원 가입하면 바로 Eco들을(미션 리스트) 모두 저장해서 바로 서비스가 가능하게 짜야 될 듯??
     public static UserEco createEco(User user, Eco eco){
         UserEco userEco = new UserEco();
