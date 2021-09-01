@@ -3,6 +3,7 @@ package gugus.pleco.service;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
+import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PleeServiceImplTest {
 
     @Autowired UserRepository userRepository;
+    @Autowired PleeRepository pleeRepository;
     @Autowired PleeServiceImpl pleeService;
     @Autowired PasswordEncoder passwordEncoder;
 
@@ -88,6 +90,23 @@ class PleeServiceImplTest {
         assertThat(plees1.size()).isEqualTo(2);
         assertThat(plees2.size()).isEqualTo(1);
 
+    }
+
+    @Test
+    public void 에코_증가_및_플리_COMPLETE(){
+        //given
+        String email1 = "rkdlem48@gmail.com";
+        Long pleeId = pleeService.createGrowPlee(email1, "장미", 3L);
+        Plee plee = pleeRepository.getById(pleeId);
+
+        //when
+        for(int i=0; i<3; i++){
+            plee.addEcoCount();
+        }
+
+        //then
+        assertThat(plee.getEcoCount()).isEqualTo(3L);
+        assertThat(plee.getPleeStatus()).isEqualTo(PleeStatus.COMPLETE);
     }
 
 }

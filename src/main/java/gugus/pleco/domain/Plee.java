@@ -1,5 +1,6 @@
 package gugus.pleco.domain;
 
+import gugus.pleco.excetion.ExceedEcoException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +58,25 @@ public class Plee {
         plee.setGrow(completeCount);
 
         return plee;
+    }
+
+    // eco 증가 로직
+    public void addEcoCount(){
+
+//        // complete 일 경우 예외
+//        if (this.ecoCount >= this.completeCount) {
+//            throw new ExceedEcoException("exceed complete count");
+//        }
+
+        this.ecoCount += 1;
+
+        if (this.ecoCount >= this.completeCount) {
+            complete();
+        }
+    }
+
+    private void complete() {
+        this.pleeStatus = PleeStatus.COMPLETE;
     }
 
 }
