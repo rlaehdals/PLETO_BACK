@@ -44,6 +44,8 @@ public class PleeServiceImpl implements PleeService {
         List<Plee> collect = Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING)
                 .collect(Collectors.toList());
 
+        // collect NULL 예외처리 필요
+
         return collect.get(0);
     }
 

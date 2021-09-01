@@ -11,8 +11,9 @@ import java.util.Optional;
 
 public interface UserEcoService {
 
-    void confirmCoolTime(String username, String ecoName, LocalDateTime now, String pleeName);
+    void performEco(String username, String ecoName);
 
+    List<UserEco> findAll(String email);
 
     List<UserEco> UserEcoTime(String email, LocalDateTime now);
 
