@@ -35,7 +35,7 @@ public class EcoController {
 
     @GetMapping("/ecoTime")
     public RestEcoTimeDto getEcoTime(@RequestParam String email, @RequestParam String ecoName){
-        LocalTime localTime = userEcoService.UserEcoTime(email, ecoName);
+        LocalTime localTime = userEcoService.OneUserEcoTime(email, ecoName);
         return new RestEcoTimeDto(localTime);
     }
 

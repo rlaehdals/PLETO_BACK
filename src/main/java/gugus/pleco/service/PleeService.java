@@ -4,12 +4,13 @@ import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PleeService {
 
-    public Long createGrowPlee(String email,String pleeName, Long completeCount);
+    Long createGrowPlee(String email, String pleeName, Long completeCount);
 
-    public Plee getGrowPlee(String email);
+    Optional<Plee> getGrowPlee(String email);
 
-    public List<Plee> findAll(String email);
+    List<Plee> findAll(String email);
 }

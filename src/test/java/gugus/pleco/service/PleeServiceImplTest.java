@@ -64,12 +64,12 @@ class PleeServiceImplTest {
         pleeService.createGrowPlee(email, pleeName, completeCount);
 
         //then
-//        assertThat(pleeService.getGrowPlee(email).getPleeName())
-//                .isEqualTo(pleeName);
-//        assertThat(pleeService.getGrowPlee(email).getPleeStatus())
-//                .isEqualTo(PleeStatus.GROWING);
-//        assertThat(pleeService.getGrowPlee(email).getCompleteCount())
-//                .isEqualTo(completeCount);
+        assertThat(pleeService.getGrowPlee(email).get().getPleeName())
+                .isEqualTo(pleeName);
+        assertThat(pleeService.getGrowPlee(email).get().getPleeStatus())
+                .isEqualTo(PleeStatus.GROWING);
+        assertThat(pleeService.getGrowPlee(email).get().getCompleteCount())
+                .isEqualTo(completeCount);
     }
 
     @Test

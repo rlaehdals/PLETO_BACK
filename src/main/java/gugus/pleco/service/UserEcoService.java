@@ -17,7 +17,7 @@ public interface UserEcoService {
 
     PleeStatus performEco(String username, String ecoName, String pleeName);
 
-    LocalTime UserEcoTime(String email, String ecoName);
+    LocalTime OneUserEcoTime(String email, String ecoName);
 
     List<UserEcoListDto> UserEcoStatus(String email);
 

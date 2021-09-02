@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,18 +36,14 @@ public class PleeServiceImpl implements PleeService {
     }
 
     @Override
-    public Plee getGrowPlee(String email) {
+    public Optional<Plee> getGrowPlee(String email) {
 
         User user = userRepository.findByUsername(email).get();
         List<Plee> Plees = pleeRepository.findByUser(user);
 
-        // 상태가 growing 인 플리 찾기
-        List<Plee> collect = Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING)
-                .collect(Collectors.toList());
-
         // collect NULL 예외처리 필요
+        return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny();
 
-        return collect.get(0);
     }
 
     @Override

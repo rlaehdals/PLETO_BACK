@@ -60,7 +60,7 @@ public class UserEcoServiceImpl implements UserEcoService {
 
     //UserEco 수행할 수 있을때까지 남은시간 알려주는 함수
     @Override
-    public LocalTime UserEcoTime(String email, String ecoName) {
+    public LocalTime OneUserEcoTime(String email, String ecoName) {
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
         // UserEco 확인
@@ -68,10 +68,9 @@ public class UserEcoServiceImpl implements UserEcoService {
         // 마지막 실행시간 확인
         LocalDateTime performTime = userEco.getPerformTime();
         // Eco 의 coolTime - (마지막 성공시간 - 현지새간) ->  UserEco 의 남은 coolTime 확인
-        Integer restCoolTime = Math.toIntExact(userEco.getEco().getCoolTime() - ChronoUnit.SECONDS.between(performTime, now));
+        // 초를 시간으로 바꿈
+         return SecondChangeToTime(userEco.getEco().getCoolTime() - ChronoUnit.SECONDS.between(performTime, now));
 
-        //초를 시간으로 바꿔주고 리턴
-        return SecondChangeToTime(restCoolTime);
     }
 
 
@@ -90,7 +89,7 @@ public class UserEcoServiceImpl implements UserEcoService {
             String status = checkStatus(userEco.getPerformTime(), now, userEco.getEco().getCoolTime());
             // 반환을 위한 DTO 변환 dto클래스는 controller/dto 패키지에 있음
             userEcoListDtos.add(new UserEcoListDto(userEco.getEco().getEcoName()
-                    ,SecondChangeToTime(Math.toIntExact(userEco.getEco().getCoolTime()))
+                    ,SecondChangeToTime(userEco.getEco().getCoolTime())
                     ,status));
         }
         return userEcoListDtos;
@@ -111,12 +110,12 @@ public class UserEcoServiceImpl implements UserEcoService {
         return "possible";
     }
 
-    private LocalTime SecondChangeToTime(int second){
+    private LocalTime SecondChangeToTime(Long second){
         if(second<=0){
             return LocalTime.of(0,0,0,0);
 
         }
-        LocalTime localTime = LocalTime.of(second/3600,(second%3600)/60,second%60,0);
+        LocalTime localTime = LocalTime.of(second.intValue()/3600,(second.intValue()%3600)/60,second.intValue()%60,0);
         return localTime;
     }
 
