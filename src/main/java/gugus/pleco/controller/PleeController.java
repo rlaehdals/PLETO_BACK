@@ -28,7 +28,7 @@ public class PleeController {
 
     @GetMapping("/pleeDict")
     public List<PleeDictDto> pleeDictCall(@RequestParam String email){
-        return pleeService.findAll(email).stream()
+        return pleeService.findComplete(email).stream()
                 .map(m -> new PleeDictDto(m.getPleeName(),m.getPleeStatus().toString())).collect(Collectors.toList());
     }
 

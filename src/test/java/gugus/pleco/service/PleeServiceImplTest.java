@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,17 +79,23 @@ class PleeServiceImplTest {
         String email1 = "rkdlem48@gmail.com";
         String email2 = "asf@gmail.com";
 
-        pleeService.createGrowPlee(email1, "장미", 10L);
-        pleeService.createGrowPlee(email1, "호박", 10L);
-        pleeService.createGrowPlee(email2, "동백", 10L);
+        pleeService.createGrowPlee(email1, "장미", 1L);
+        Plee growPlee1 = pleeService.getGrowPlee(email1).get();
+        growPlee1.addEcoCount();
+
+        pleeService.createGrowPlee(email1, "호박", 1L);
+        Plee growPlee2 = pleeService.getGrowPlee(email1).get();
+        growPlee2.addEcoCount();
+
+        pleeService.createGrowPlee(email2, "동백", 1L);
 
         //when
-        List<Plee> plees1 = pleeService.findAll(email1);
-        List<Plee> plees2 = pleeService.findAll(email2);
+        List<Plee> plees1 = pleeService.findComplete(email1);
+        List<Plee> plees2 = pleeService.findComplete(email2);
 
         //then
         assertThat(plees1.size()).isEqualTo(2);
-        assertThat(plees2.size()).isEqualTo(1);
+        assertThat(plees2.size()).isEqualTo(0);
 
     }
 
