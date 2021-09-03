@@ -1,6 +1,7 @@
 package gugus.pleco.service;
 
 import gugus.pleco.excetion.UserDupulicatedException;
+import javassist.bytecode.DuplicateMemberException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import gugus.pleco.controller.dto.UserDto;
 import gugus.pleco.domain.User;
@@ -13,4 +14,6 @@ public interface UserService extends UserDetailsService {
     User login(UserDto userDto);
 
     User findById(Long id);
+
+    boolean checkEmail(String email) throws UserDupulicatedException;
 }

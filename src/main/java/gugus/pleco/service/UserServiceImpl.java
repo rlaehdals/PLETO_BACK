@@ -4,6 +4,7 @@ import gugus.pleco.excetion.UserDupulicatedException;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
+import javassist.bytecode.DuplicateMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,6 +52,16 @@ public class UserServiceImpl implements UserService{
             userEcoRepository.save(eco1);
         }
         return user;
+    }
+
+    @Override
+    public boolean checkEmail(String email) throws UserDupulicatedException {
+        User user = userRepository.findByUsername(email).get();
+
+        if(user!=null){
+            throw new UserDupulicatedException("이미 가입된 이메일 입니다.");
+        }
+        return true;
     }
 
     @Override
