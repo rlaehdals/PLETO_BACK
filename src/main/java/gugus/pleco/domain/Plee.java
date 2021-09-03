@@ -1,6 +1,5 @@
 package gugus.pleco.domain;
 
-import gugus.pleco.excetion.ExceedEcoException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

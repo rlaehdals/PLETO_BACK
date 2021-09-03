@@ -6,6 +6,7 @@ import gugus.pleco.service.UserEcoService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -21,18 +22,21 @@ public class EcoController {
 
 
     @PostMapping("/performEco")
+    @ResponseStatus(HttpStatus.OK)
     public UserEcoDto perform(@RequestBody PerformDto performDto) {
         PleeStatus pleeStatus = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName(), performDto.getPleeName());
         return new UserEcoDto(pleeStatus.toString());
     }
 
     @GetMapping("/ecoTime")
+    @ResponseStatus(HttpStatus.OK)
     public RestEcoTimeDto getEcoTime(@RequestParam String email, @RequestParam String ecoName) {
         LocalTime localTime = userEcoService.OneUserEcoTime(email, ecoName);
         return new RestEcoTimeDto(localTime);
     }
 
     @GetMapping("/ecoList")
+    @ResponseStatus(HttpStatus.OK)
     public List<UserEcoListDto> getEcoTimeList(@RequestParam String email) {
         return userEcoService.UserEcoStatus(email);
     }

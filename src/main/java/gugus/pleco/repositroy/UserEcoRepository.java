@@ -1,6 +1,5 @@
 package gugus.pleco.repositroy;
 
-import gugus.pleco.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import gugus.pleco.domain.UserEco;
 import org.springframework.data.jpa.repository.Query;

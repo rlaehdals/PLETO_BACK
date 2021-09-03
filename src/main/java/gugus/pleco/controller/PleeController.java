@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,18 +20,21 @@ public class PleeController {
     private final PleeService pleeService;
 
     @GetMapping("/growPlee")
+    @ResponseStatus(HttpStatus.OK)
     public PleeDto currnetPleeCall(@RequestParam String email){
         Plee growPlee = pleeService.getGrowPlee(email).get();
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
 
     @GetMapping("/pleeDict")
+    @ResponseStatus(HttpStatus.OK)
     public List<PleeDictDto> pleeDictCall(@RequestParam String email){
         return pleeService.findComplete(email).stream()
                 .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
 
     @PostMapping("/growPlee")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email){
         Long createPleeId = pleeService.createGrowPlee(email, createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);

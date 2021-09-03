@@ -4,7 +4,6 @@ import gugus.pleco.excetion.UserDupulicatedException;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
-import javassist.bytecode.DuplicateMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("없어"));
+                .orElseThrow(()-> new UsernameNotFoundException("등록되지 않은 아이디입니다. "));
     }
 
     @Override

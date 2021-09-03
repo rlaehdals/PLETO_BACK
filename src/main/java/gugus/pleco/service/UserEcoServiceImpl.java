@@ -3,7 +3,6 @@ package gugus.pleco.service;
 import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
-import gugus.pleco.domain.User;
 import gugus.pleco.domain.UserEco;
 import gugus.pleco.excetion.TimeDissatisfactionException;
 import gugus.pleco.repositroy.PleeRepository;
