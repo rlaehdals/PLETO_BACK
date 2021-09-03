@@ -9,10 +9,7 @@ import gugus.pleco.excetion.TimeDissatisfactionException;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.context.TenantIdentifierMismatchException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +18,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

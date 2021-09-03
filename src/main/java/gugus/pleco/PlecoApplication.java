@@ -1,13 +1,8 @@
 package gugus.pleco;
-
 import gugus.pleco.controller.dto.UserDto;
 import gugus.pleco.domain.Eco;
-import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
 import gugus.pleco.repositroy.EcoRepository;
-import gugus.pleco.repositroy.PleeRepository;
-import gugus.pleco.repositroy.UserEcoRepository;
-import gugus.pleco.repositroy.UserRepository;
 import gugus.pleco.service.PleeService;
 import gugus.pleco.service.UserEcoService;
 import gugus.pleco.service.UserService;
@@ -16,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -32,12 +26,12 @@ public class PlecoApplication {
 	}
 
 
-	@PostConstruct
-	public void dummy(){
-		Eco tumbler = Eco.createEco("텀블러", 3600L);
-		ecoRepository.save(tumbler);
-		UserDto userDto = new UserDto("rkdlem48@gmail.com","asdf");
-		User saveUser = userService.join(userDto);
-		pleeService.createGrowPlee(saveUser.getUsername(), "장미", 10L);
-	}
+//	@PostConstruct
+//	public void dummy(){
+//		Eco tumbler = Eco.createEco("텀블러", 3600L);
+//		ecoRepository.save(tumbler);
+//		UserDto userDto = new UserDto("rkdlem48@gmail.com","asdf");
+//		User saveUser = userService.join(userDto);
+//		pleeService.createGrowPlee(saveUser.getUsername(), "장미", 10L);
+//	}
 }

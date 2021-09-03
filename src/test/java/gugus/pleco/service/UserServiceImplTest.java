@@ -64,6 +64,14 @@ class UserServiceImplTest {
     public void destroy(){
         userRepository.deleteAll();
     }
+
+
+    @Test
+    void userRepositoryTest(){
+        User saveUser = userRepository.findByUsername("rkdlem48@gmail.com").get();
+
+        assertThat(saveUser.getUsername()).isEqualTo("rkdlem48@gmail.com");
+    }
     @Test
     void UserList(){
 

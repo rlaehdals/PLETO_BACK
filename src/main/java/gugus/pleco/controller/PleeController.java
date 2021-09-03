@@ -40,21 +40,21 @@ public class PleeController {
 
     @Data
     @AllArgsConstructor
-    class PleeDto{
+    static class PleeDto{
         String pleeName;
         Long ecoCount;
     }
 
     @Data
     @AllArgsConstructor
-    class PleeDictDto{
+    static class PleeDictDto{
         String pleeName;
         String pleeStatus;
     }
 
     @Data
     @AllArgsConstructor
-    class CreatePleeDto{
+    static class CreatePleeDto{
         String pleeName;
         Long completeCount;
     }

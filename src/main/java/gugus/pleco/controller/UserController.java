@@ -24,7 +24,7 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserDto userDto, HttpServletResponse response)throws UserDupulicatedException {
+    public ResponseEntity<?> signup(@RequestBody UserDto userDto)throws UserDupulicatedException {
         User user = userService.join(userDto);
         return new ResponseEntity<>(user.getId(),HttpStatus.OK);
     }
