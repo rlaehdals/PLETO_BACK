@@ -29,7 +29,7 @@ public class PleeController {
     @GetMapping("/pleeDict")
     public List<PleeDictDto> pleeDictCall(@RequestParam String email){
         return pleeService.findComplete(email).stream()
-                .map(m -> new PleeDictDto(m.getPleeName(),m.getPleeStatus().toString())).collect(Collectors.toList());
+                .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
 
     @PostMapping("/growPlee")
@@ -49,7 +49,6 @@ public class PleeController {
     @AllArgsConstructor
     static class PleeDictDto{
         String pleeName;
-        String pleeStatus;
     }
 
     @Data
