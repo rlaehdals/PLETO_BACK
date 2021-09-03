@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -34,7 +36,7 @@ public class EcoController {
     }
 
     @GetMapping("/ecoTime")
-    public RestEcoTimeDto getEcoTime(@RequestParam String email, @RequestParam String ecoName){
+    public RestEcoTimeDto getEcoTime(@RequestParam String email, @RequestParam String ecoName) {
         LocalTime localTime = userEcoService.OneUserEcoTime(email, ecoName);
         return new RestEcoTimeDto(localTime);
     }

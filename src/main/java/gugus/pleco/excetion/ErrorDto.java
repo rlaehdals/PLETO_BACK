@@ -2,12 +2,11 @@ package gugus.pleco.excetion;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
 public class ErrorDto {
 
     String message;
-    HttpStatus status;
+    boolean confirm;
 }

@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
     public User join(UserDto userDto) throws UserDupulicatedException{
         userRepository.findByUsername(userDto.getEmail())
                 .ifPresent(m->{
-                    throw new UserDupulicatedException("이미 있는 아이디");
+                    throw new UserDupulicatedException("이미 존재하는 아이디 입니다.");
                 });
         User user = userRepository.save(User.builder()
                 .username(userDto.getEmail())

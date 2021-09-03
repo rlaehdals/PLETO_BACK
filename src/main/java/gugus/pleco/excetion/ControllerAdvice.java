@@ -13,26 +13,25 @@ public class ControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto dupulicate(UserDupulicatedException e){
-        return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
+        return new ErrorDto(e.getMessage(),false);
     }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto emailNotFound(UsernameNotFoundException e){
-        return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
+        return new ErrorDto(e.getMessage(),false);
     }
 
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto badPassword(BadCredentialsException e){
-        return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
+        return new ErrorDto(e.getMessage(),false);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto notTime(TimeDissatisfactionException e){
-        return new ErrorDto(e.getMessage(),HttpStatus.BAD_REQUEST);
+        return new ErrorDto(e.getMessage(),false);
     }
 
 }

@@ -37,6 +37,7 @@ class UserServiceImplTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
