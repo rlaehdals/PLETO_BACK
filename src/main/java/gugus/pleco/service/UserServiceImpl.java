@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException{
+    public User login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
         User user = userRepository.findByUsername(userDto.getEmail())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
