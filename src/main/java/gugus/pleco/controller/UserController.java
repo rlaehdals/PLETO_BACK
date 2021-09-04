@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import gugus.pleco.controller.dto.UserDto;
 import gugus.pleco.domain.User;
@@ -35,7 +37,7 @@ public class UserController {
     }
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public loginDto login(@RequestBody UserDto userDto){
+    public loginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException {
         User user = userService.login(userDto);
         return new loginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);
     }
