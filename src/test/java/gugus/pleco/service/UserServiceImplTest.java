@@ -97,7 +97,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void loginSuccess() {
+    void loginSuccess() throws Throwable{
         UserDto userDto = new UserDto("rkdlem48@gmail.com", "asdf");
         User saveUser = userService.login(userDto);
 
