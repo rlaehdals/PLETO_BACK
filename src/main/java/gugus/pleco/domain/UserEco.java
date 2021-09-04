@@ -17,7 +17,7 @@ public class UserEco {
     @Column(name = "user_eco_id")
     private Long id;
 
-    @Column(name = "perform_tme")
+    @Column(name = "perform_time")
     private LocalDateTime performTime;
 
 
