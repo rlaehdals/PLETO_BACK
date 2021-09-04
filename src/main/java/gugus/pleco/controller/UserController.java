@@ -37,7 +37,7 @@ public class UserController {
     }
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public loginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException {
+    public loginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable {
         User user = userService.login(userDto);
         return new loginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);
     }
