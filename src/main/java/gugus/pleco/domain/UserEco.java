@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserEco {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_eco_id")
     private Long id;
 
