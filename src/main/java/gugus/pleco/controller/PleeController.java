@@ -21,8 +21,8 @@ public class PleeController {
 
     @GetMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public PleeDto currnetPleeCall(@RequestParam String email){
-        Plee growPlee = pleeService.getGrowPlee(email).get();
+    public PleeDto currnetPleeCall(@RequestParam String email) throws Throwable{
+        Plee growPlee = pleeService.getGrowPlee(email);
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
 

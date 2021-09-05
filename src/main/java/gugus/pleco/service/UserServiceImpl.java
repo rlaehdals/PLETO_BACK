@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean checkEmail(String email) throws UserDupulicatedException {
-        User user = userRepository.findByUsername(email).get();
-
-        if(user!=null){
-            throw new UserDupulicatedException("이미 가입된 이메일 입니다.");
-        }
+        userRepository.findByUsername(email).ifPresent(
+                m -> {
+                    throw new UserDupulicatedException("이미 있는 아이디입니다.");
+                }
+        );
         return true;
     }
 

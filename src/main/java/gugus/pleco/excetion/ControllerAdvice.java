@@ -34,4 +34,10 @@ public class ControllerAdvice {
         return new ErrorDto(e.getMessage(),false);
     }
 
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto notPlee(NotExistPlee e ){
+        return new ErrorDto(e.getMessage(), false);
+    }
 }
