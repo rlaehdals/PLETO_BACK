@@ -51,7 +51,7 @@ class PleeServiceImplTest {
     }
 
     @Test
-    public void 그로우플리_생성(){
+    public void 그로우플리_생성() throws Throwable {
         //given
         String email = "rkdlem48@gmail.com";
         String pleeName = "장미";
@@ -61,26 +61,26 @@ class PleeServiceImplTest {
         pleeService.createGrowPlee(email, pleeName, completeCount);
 
         //then
-        assertThat(pleeService.getGrowPlee(email).get().getPleeName())
+        assertThat(pleeService.getGrowPlee(email).getPleeName())
                 .isEqualTo(pleeName);
-        assertThat(pleeService.getGrowPlee(email).get().getPleeStatus())
+        assertThat(pleeService.getGrowPlee(email).getPleeStatus())
                 .isEqualTo(PleeStatus.GROWING);
-        assertThat(pleeService.getGrowPlee(email).get().getCompleteCount())
+        assertThat(pleeService.getGrowPlee(email).getCompleteCount())
                 .isEqualTo(completeCount);
     }
 
     @Test
-    public void 모든_플리_조회(){
+    public void 모든_플리_조회() throws Throwable {
         //given
         String email1 = "rkdlem48@gmail.com";
         String email2 = "asf@gmail.com";
 
         pleeService.createGrowPlee(email1, "장미", 1L);
-        Plee growPlee1 = pleeService.getGrowPlee(email1).get();
+        Plee growPlee1 = pleeService.getGrowPlee(email1);
         growPlee1.addEcoCount();
 
         pleeService.createGrowPlee(email1, "호박", 1L);
-        Plee growPlee2 = pleeService.getGrowPlee(email1).get();
+        Plee growPlee2 = pleeService.getGrowPlee(email1);
         growPlee2.addEcoCount();
 
         pleeService.createGrowPlee(email2, "동백", 1L);

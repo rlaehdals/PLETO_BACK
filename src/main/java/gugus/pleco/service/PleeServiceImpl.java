@@ -3,6 +3,7 @@ package gugus.pleco.service;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
+import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +37,16 @@ public class PleeServiceImpl implements PleeService {
     }
 
     @Override
-    public Optional<Plee> getGrowPlee(String email) {
+    public Plee getGrowPlee(String email) throws NotExistPlee, Throwable{
 
         User user = userRepository.findByUsername(email).get();
         List<Plee> Plees = pleeRepository.findByUser(user);
 
         // collect NULL 예외처리 필요
-        return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny();
+        return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny().orElseThrow(
+                () -> new NotExistPlee("현재는플리가 없습니다.")
+        );
+
 
     }
 
