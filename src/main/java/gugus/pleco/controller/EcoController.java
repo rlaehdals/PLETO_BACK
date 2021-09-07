@@ -43,20 +43,20 @@ public class EcoController {
 
     @Data
     @AllArgsConstructor
-    class UserEcoDto {
+    static class UserEcoDto {
         String status;
     }
 
 
     @Data
     @AllArgsConstructor
-    class RestEcoTimeDto {
+    static class RestEcoTimeDto {
         LocalTime restCoolTime;
     }
 
     @Data
     @AllArgsConstructor
-    class PerformDto {
+    static class PerformDto {
 
         @Email
         @NotNull
