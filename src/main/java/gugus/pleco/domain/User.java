@@ -31,10 +31,10 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
     List<Plee> pleeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
     List<UserEco> userEcoList = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
