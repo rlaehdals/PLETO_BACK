@@ -5,6 +5,7 @@ import gugus.pleco.service.PleeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@Slf4j
 public class PleeController {
 
     private final PleeService pleeService;
@@ -36,6 +38,7 @@ public class PleeController {
     @PostMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email){
+        log.info("{}","call_controller");
         Long createPleeId = pleeService.createGrowPlee(email, createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);
     }

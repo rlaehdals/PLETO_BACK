@@ -7,6 +7,7 @@ import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PleeServiceImpl implements PleeService {
 
     private final UserRepository userRepository;
@@ -26,13 +28,18 @@ public class PleeServiceImpl implements PleeService {
     @Override
     public Long createGrowPlee(String email, String pleeName, Long completeCount) {
 
+        log.info("call_service");
+
         User user = userRepository.findByUsername(email).get();
 
         // 사용자의 growPlee가 이미 있으면 예외
         // ...
 
+        log.info("savePlee");
         Plee plee = pleeRepository.save(Plee.createPlee(user, pleeName, completeCount));
 
+
+        log.info("savePlee complete");
         return plee.getId();
     }
 
