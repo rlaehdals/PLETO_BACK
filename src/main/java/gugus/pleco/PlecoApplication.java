@@ -17,11 +17,10 @@ import javax.annotation.PostConstruct;
 public class PlecoApplication {
 
 
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(PlecoApplication.class, args);
 	}
+
 
 
 

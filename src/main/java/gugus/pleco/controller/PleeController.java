@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,8 @@ public class PleeController {
 
     @GetMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public PleeDto currnetPleeCall(@RequestParam String email) throws Throwable{
+    public PleeDto currnetPleeCall(@RequestParam String email, HttpServletRequest request) throws Throwable{
+        log.info("{}",request.getHeader("X-AUTH-TOKEN"));
         Plee growPlee = pleeService.getGrowPlee(email);
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
