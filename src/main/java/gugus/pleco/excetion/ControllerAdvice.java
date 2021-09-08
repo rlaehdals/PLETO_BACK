@@ -49,7 +49,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto alreadyExistGrowingPlee(ExistSamePleeName e ){
+    public ErrorDto alreadyExistGrowingPlee(AlreadyUserHaveGrowPlee e ){
         return new ErrorDto(e.getMessage(), false);
     }
 
