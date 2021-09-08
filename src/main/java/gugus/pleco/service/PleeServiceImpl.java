@@ -3,6 +3,8 @@ package gugus.pleco.service;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
+import gugus.pleco.excetion.AlreadyUserHaveGrowPlee;
+import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserRepository;
@@ -26,26 +28,33 @@ public class PleeServiceImpl implements PleeService {
 
 
     @Override
-    public Long createGrowPlee(String email, String pleeName, Long completeCount) {
+    public Long createGrowPlee(String email, String pleeName, Long completeCount) throws ExistSamePleeName{
 
-        log.info("call_service");
+        log.info("id: {}, location: {}", email, "PleeServiceImpl.createGrowPlee");
 
         User user = userRepository.findByUsername(email).get();
 
-        // 사용자의 growPlee가 이미 있으면 예외
-        // ...
+        pleeRepository.findByPleeNameAndUser(user,pleeName)
+                .ifPresent(m -> {
+                    throw new ExistSamePleeName("유저에게 이미 존재 하는 플리");
+                });
 
-        log.info("savePlee");
+        // 사용자의 growPlee가 이미 있으면 예외
+        pleeRepository.findByUser(user).stream().filter(m -> m.getPleeStatus()==PleeStatus.GROWING).findAny().ifPresent(
+                m -> {throw new AlreadyUserHaveGrowPlee("이미 키우고 있는 플리가 있습니다."); }
+        );
+
+
         Plee plee = pleeRepository.save(Plee.createPlee(user, pleeName, completeCount));
 
+        log.info("id: {}, location: {}, status: {}", email, "PleeServiceImpl.createGrowPlee","Complete");
 
-        log.info("savePlee complete");
         return plee.getId();
     }
 
     @Override
     public Plee getGrowPlee(String email) throws NotExistPlee, Throwable{
-
+        log.info("id: {}, location: {}", email, "PleeServiceImpl.getGrowPlee");
         User user = userRepository.findByUsername(email).get();
         List<Plee> Plees = pleeRepository.findByUser(user);
 
@@ -59,7 +68,7 @@ public class PleeServiceImpl implements PleeService {
 
     @Override
     public List<Plee> findComplete(String email) {
-
+        log.info("id: {}, location: {}", email, "PleeServiceImpl.findComplete");
         User user = userRepository.findByUsername(email).get();
         List<Plee> plees = pleeRepository.findByUser(user);
 

@@ -1,6 +1,7 @@
 package gugus.pleco.controller;
 
 import gugus.pleco.domain.Plee;
+import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.service.PleeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +25,8 @@ public class PleeController {
 
     @GetMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public PleeDto currnetPleeCall(@RequestParam String email, HttpServletRequest request) throws Throwable{
-        log.info("{}",request.getHeader("X-AUTH-TOKEN"));
+    public PleeDto currentPleeCall(@RequestParam String email, HttpServletRequest request) throws Throwable{
+        log.info("id: {}, location: {}",email,"PleeController.currentPleeCall");
         Plee growPlee = pleeService.getGrowPlee(email);
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
@@ -33,14 +34,15 @@ public class PleeController {
     @GetMapping("/pleeDict")
     @ResponseStatus(HttpStatus.OK)
     public List<PleeDictDto> pleeDictCall(@RequestParam String email){
+        log.info("id: {}, location: {}",email,"PleeController.pleeDictCall");
         return pleeService.findComplete(email).stream()
                 .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
 
     @PostMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email){
-        log.info("{}","call_controller");
+    public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email) throws ExistSamePleeName {
+        log.info("id: {}, location: {}",email,"PleeController.createPlee");
         Long createPleeId = pleeService.createGrowPlee(email, createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);
     }

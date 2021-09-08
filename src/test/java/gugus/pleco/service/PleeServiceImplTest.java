@@ -3,6 +3,8 @@ package gugus.pleco.service;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
+import gugus.pleco.excetion.AlreadyUserHaveGrowPlee;
+import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -96,7 +98,7 @@ class PleeServiceImplTest {
     }
 
     @Test
-    public void 에코_증가_및_플리_COMPLETE(){
+    public void 에코_증가_및_플리_COMPLETE() throws Throwable{
         //given
         String email1 = "rkdlem48@gmail.com";
         Long pleeId = pleeService.createGrowPlee(email1, "장미", 3L);
@@ -112,4 +114,23 @@ class PleeServiceImplTest {
         assertThat(plee.getPleeStatus()).isEqualTo(PleeStatus.COMPLETE);
     }
 
+    @Test
+    void user가_가지고_있는_플리의_이름이_이미_있을_때(){
+        User user = userRepository.findByUsername("rkdlem48@gmail.com").get();
+
+        pleeService.createGrowPlee(user.getUsername(), "장미", 10L);
+
+        assertThrows(ExistSamePleeName.class, () ->         pleeService.createGrowPlee(user.getUsername(), "장미", 10L));
+    }
+
+    @Test
+    void user가_이미_키우고_있는_플리가_있을_때(){
+        User user = userRepository.findByUsername("rkdlem48@gmail.com").get();
+
+        pleeService.createGrowPlee(user.getUsername(), "장미", 10L);
+
+        assertThrows(AlreadyUserHaveGrowPlee.class,
+                () ->         pleeService.createGrowPlee(user.getUsername(), "꽃", 10L)
+        );
+    }
 }
