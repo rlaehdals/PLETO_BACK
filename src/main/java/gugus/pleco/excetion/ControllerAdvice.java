@@ -43,9 +43,16 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto alreadyExistPlee(ExistSamePleeName e ){
+    public ErrorDto alreadyExistSameNamePlee(ExistSamePleeName e ){
         return new ErrorDto(e.getMessage(), false);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto alreadyExistGrowingPlee(ExistSamePleeName e ){
+        return new ErrorDto(e.getMessage(), false);
+    }
+
 
 
 }

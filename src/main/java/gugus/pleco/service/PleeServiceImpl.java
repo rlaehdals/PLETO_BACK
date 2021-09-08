@@ -28,7 +28,7 @@ public class PleeServiceImpl implements PleeService {
 
 
     @Override
-    public Long createGrowPlee(String email, String pleeName, Long completeCount) throws ExistSamePleeName{
+    public Long createGrowPlee(String email, String pleeName, Long completeCount) throws ExistSamePleeName, AlreadyUserHaveGrowPlee{
 
         log.info("id: {}, location: {}", email, "PleeServiceImpl.createGrowPlee");
 
