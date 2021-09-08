@@ -3,6 +3,7 @@ package gugus.pleco.controller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,6 +19,7 @@ import gugus.pleco.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -25,6 +27,7 @@ public class UserController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
     public signUpDto signup(@RequestBody UserDto userDto)throws UserDupulicatedException {
+        log.info("id: {}, location: {}",userDto.getEmail(),"UserController.signup.method");
         User user = userService.join(userDto);
         return new signUpDto(user.getId(), true);
     }
@@ -33,11 +36,14 @@ public class UserController {
     @GetMapping("/duplicate")
     @ResponseStatus(HttpStatus.OK)
     public duplicateDto checkEmail(@RequestParam String email) throws UserDupulicatedException  {
+        log.info("id: {}, location: {}",email,"UserController.checkEmail");
         return new duplicateDto(userService.checkEmail(email));
     }
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public loginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable {
+        log.info("id: {}, location: {}",userDto.getEmail(),"UserController.login");
+
         User user = userService.login(userDto);
         return new loginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);
     }
