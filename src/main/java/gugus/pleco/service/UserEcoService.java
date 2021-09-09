@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public interface UserEcoService {
 
-    Plee performEco(String username, String ecoName)throws RuntimeException;
+    Plee performEco(String username, String ecoName)throws RuntimeException, Throwable;
 
     LocalTime OneUserEcoTime(String email, String ecoName);
 

@@ -29,10 +29,9 @@ public class UserEcoServiceImpl implements UserEcoService {
     private final UserEcoRepository userEcoRepository;
     private final UserRepository userRepository;
     private final PleeRepository pleeRepository;
-    private final PleeService pleeService;
 
     @Override
-    public Plee performEco(String username, String ecoName) throws NotExistPlee,TimeDissatisfactionException {
+    public Plee performEco(String username, String ecoName) throws RuntimeException, Throwable {
         log.info("id: {}, location: {}", username, "UserEcoServiceImpl.performEco");
 
         //페치 조인써서 쿼리 최적화

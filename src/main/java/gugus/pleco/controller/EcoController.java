@@ -26,7 +26,7 @@ public class EcoController {
 
     @PostMapping("/performEco")
     @ResponseStatus(HttpStatus.OK)
-    public UserEcoDto perform(@RequestBody PerformDto performDto) throws RuntimeException{
+    public UserEcoDto perform(@RequestBody PerformDto performDto) throws RuntimeException, Throwable{
         log.info("id: {}, location: {}",performDto.getEmail(),"EcoController.perform");
         Plee plee = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName());
         return new UserEcoDto(plee.getPleeName(),plee.getPleeStatus().toString());

@@ -38,7 +38,7 @@ class UserEcoServiceImplTest {
 
 
     @Test
-    public void 에코_수행_성공() throws RuntimeException{
+    public void 에코_수행_성공() throws RuntimeException, Throwable{
         //given
         Eco tumbler = Eco.createEco("텀블러 사용하기", 1000L);
         ecoRepository.save(tumbler);
