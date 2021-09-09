@@ -4,6 +4,7 @@ import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.UserEco;
+import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.excetion.TimeDissatisfactionException;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
@@ -31,7 +32,7 @@ public class UserEcoServiceImpl implements UserEcoService {
     private final PleeService pleeService;
 
     @Override
-    public PleeStatus performEco(String username, String ecoName, String pleeName) throws TimeDissatisfactionException {
+    public Plee performEco(String username, String ecoName) throws NotExistPlee,TimeDissatisfactionException {
         log.info("id: {}, location: {}", username, "UserEcoServiceImpl.performEco");
 
         //페치 조인써서 쿼리 최적화
@@ -46,13 +47,19 @@ public class UserEcoServiceImpl implements UserEcoService {
         // 수행할 수 있는지 계산
         checkTime(performTime, nowTime, coolTime);
 
-        //Plee plee = pleeService.getGrowPlee(username);
 
-        Plee plee = pleeRepository.findByPleeName(pleeName).get();
+        Plee plee = pleeRepository.findPleeByUsername(username).stream()
+                .filter(m -> m.getPleeStatus() == PleeStatus.GROWING)
+                .findFirst()
+                .orElseThrow(
+                        () -> {
+                            throw new NotExistPlee("현재 키우고 있는 플리가 없음");
+                        }
+                );
         plee.addEcoCount();
         userEco.setPerformTime(nowTime);
         log.info("id: {}, location: {} status: {}", username, "UserEcoServiceImpl.performEco", "Complete");
-        return plee.getPleeStatus();
+        return plee;
     }
 
 
@@ -122,7 +129,7 @@ public class UserEcoServiceImpl implements UserEcoService {
         return localTime;
     }
 
-    private void checkTime(LocalDateTime performTime, LocalDateTime nowTime, Long coolTime) {
+    private void checkTime(LocalDateTime performTime, LocalDateTime nowTime, Long coolTime) throws RuntimeException{
         // 경과 시간
         Long elapsedTime = ChronoUnit.SECONDS.between(performTime, nowTime);
 

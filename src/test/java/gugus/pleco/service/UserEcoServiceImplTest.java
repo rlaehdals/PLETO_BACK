@@ -2,9 +2,8 @@ package gugus.pleco.service;
 
 import gugus.pleco.controller.dto.UserDto;
 import gugus.pleco.controller.dto.UserEcoListDto;
-import gugus.pleco.domain.Eco;
-import gugus.pleco.domain.User;
-import gugus.pleco.domain.UserEco;
+import gugus.pleco.domain.*;
+import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.excetion.TimeDissatisfactionException;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.PleeRepository;
@@ -39,7 +38,7 @@ class UserEcoServiceImplTest {
 
 
     @Test
-    public void 에코_수행_성공() throws Throwable{
+    public void 에코_수행_성공() throws RuntimeException{
         //given
         Eco tumbler = Eco.createEco("텀블러 사용하기", 1000L);
         ecoRepository.save(tumbler);
@@ -49,16 +48,18 @@ class UserEcoServiceImplTest {
         Long pleeId = pleeService.createGrowPlee(email, "장미", 10L);
 
         //when
-        userEcoService.performEco(email, tumbler.getEcoName(), "장미");
+        Plee plee = userEcoService.performEco(email, tumbler.getEcoName());
+
 
         //then
         // 플리의 에코 카운트가 증가해야한다.
-        assertThat(pleeRepository.findById(pleeId).get().getEcoCount()).isEqualTo(1);
-
+        assertThat(plee.getEcoCount()).isEqualTo(1L);
+        assertThat(plee.getPleeName()).isEqualTo("장미");
+        assertThat(plee.getPleeStatus()).isEqualTo(PleeStatus.GROWING);
     }
 
     @Test
-    public void 에코_수행실패() throws Throwable{
+    public void 에코_수행실패_아직_쿨타임() throws Throwable{
         //given
         Eco tumbler = Eco.createEco("텀블러 사용하기", 1000L);
         ecoRepository.save(tumbler);
@@ -68,16 +69,35 @@ class UserEcoServiceImplTest {
         Long pleeId = pleeService.createGrowPlee(email, "장미", 10L);
 
         // 첫 번째 에코 수행
-        userEcoService.performEco(email, tumbler.getEcoName(),"장미");
+        userEcoService.performEco(email, tumbler.getEcoName());
 
         //when
         // 첫 번째 에코 수행 후 바로 두 번째 에코 수행
         Throwable e = assertThrows(TimeDissatisfactionException.class,
-                () -> userEcoService.performEco(email, tumbler.getEcoName(),"장미"));
+                () -> userEcoService.performEco(email, tumbler.getEcoName()));
 
         //then
         String message = e.getMessage();
         assertThat(message).isEqualTo("아직 미션을 할 수 있는 시간이 아닙니다.");
+    }
+    @Test
+    public void 에코_수행실패_키우고_있는_플리가_없음() throws RuntimeException{
+        //given
+        Eco tumbler = Eco.createEco("텀블러 사용하기", 1000L);
+        ecoRepository.save(tumbler);
+
+        String email = "rkdlem48@gmail.com";
+        createUser(email, "1234");
+        // 첫 번째 에코 수행
+
+        //when
+        // 첫 번째 에코 수행 후 바로 두 번째 에코 수행
+        Throwable e = assertThrows(NotExistPlee.class,
+                () -> userEcoService.performEco(email, tumbler.getEcoName()));
+
+        //then
+        String message = e.getMessage();
+        assertThat(message).isEqualTo("현재 키우고 있는 플리가 없음");
     }
 
     @Test

@@ -2,6 +2,7 @@ package gugus.pleco.service;
 
 import gugus.pleco.controller.EcoController;
 import gugus.pleco.controller.dto.UserEcoListDto;
+import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
 import gugus.pleco.domain.UserEco;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public interface UserEcoService {
 
-    PleeStatus performEco(String username, String ecoName, String pleeName);
+    Plee performEco(String username, String ecoName)throws RuntimeException;
 
     LocalTime OneUserEcoTime(String email, String ecoName);
 

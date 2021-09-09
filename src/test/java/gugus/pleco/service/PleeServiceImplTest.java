@@ -126,7 +126,7 @@ class PleeServiceImplTest {
     @Test
     void user가_이미_키우고_있는_플리가_있을_때(){
         User user = userRepository.findByUsername("rkdlem48@gmail.com").get();
-        User user1 = userRepository.findByUsername("asd@gmail.com").get();
+        User user1 = userRepository.findByUsername("asf@gmail.com").get();
 
         pleeService.createGrowPlee(user.getUsername(), "장미", 10L);
 
