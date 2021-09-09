@@ -18,6 +18,9 @@ public interface PleeRepository extends JpaRepository<Plee, Long> {
     Optional<Plee> findByPleeName(String pleeName);
 
 
+    @Query("select p from Plee p join fetch p.user where p.user.username= :username")
+    List<Plee> findPleeByUsername(@Param("username")String username);
+
     @Query("select p from Plee p join fetch p.user where p.user= :user and p.pleeName= :pleeName")
     Optional<Plee> findByPleeNameAndUser(@Param("user") User user, @Param("pleeName") String pleeName);
 }

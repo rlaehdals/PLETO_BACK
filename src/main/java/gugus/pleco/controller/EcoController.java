@@ -1,6 +1,7 @@
 package gugus.pleco.controller;
 
 import gugus.pleco.controller.dto.UserEcoListDto;
+import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.service.UserEcoService;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,10 @@ public class EcoController {
 
     @PostMapping("/performEco")
     @ResponseStatus(HttpStatus.OK)
-    public UserEcoDto perform(@RequestBody PerformDto performDto) {
+    public UserEcoDto perform(@RequestBody PerformDto performDto) throws RuntimeException{
         log.info("id: {}, location: {}",performDto.getEmail(),"EcoController.perform");
-        PleeStatus pleeStatus = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName(), performDto.getPleeName());
-        return new UserEcoDto(pleeStatus.toString());
+        Plee plee = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName());
+        return new UserEcoDto(plee.getPleeName(),plee.getPleeStatus().toString());
     }
 
     @GetMapping("/ecoTime")
@@ -49,6 +50,7 @@ public class EcoController {
     @Data
     @AllArgsConstructor
     static class UserEcoDto {
+        String pleeName;
         String status;
     }
 
@@ -69,10 +71,5 @@ public class EcoController {
 
         @NotNull
         String ecoName;
-
-        @NotNull
-        String pleeName;
     }
-
-
 }
