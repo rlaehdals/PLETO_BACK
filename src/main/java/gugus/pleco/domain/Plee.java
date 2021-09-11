@@ -62,10 +62,6 @@ public class Plee {
     // eco 증가 로직
     public void addEcoCount(){
 
-//        // complete 일 경우 예외
-//        if (this.ecoCount >= this.completeCount) {
-//            throw new ExceedEcoException("exceed complete count");
-//        }
 
         this.ecoCount += 1;
 
