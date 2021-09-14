@@ -36,12 +36,12 @@ public class PleeServiceImpl implements PleeService {
 
         pleeRepository.findByPleeNameAndUser(user,pleeName)
                 .ifPresent(m -> {
-                    throw new ExistSamePleeName("유저에게 이미 존재 하는 플리");
+                    throw new ExistSamePleeName("플리를 저장하려고 할 때 플리 이름이 중복되는 것이 있을 때");
                 });
 
         // 사용자의 growPlee가 이미 있으면 예외
         pleeRepository.findByUser(user).stream().filter(m -> m.getPleeStatus()==PleeStatus.GROWING).findAny().ifPresent(
-                m -> {throw new AlreadyUserHaveGrowPlee("이미 키우고 있는 플리가 있습니다."); }
+                m -> {throw new AlreadyUserHaveGrowPlee("플리를 새로 생성할 때 이미 플리가 있어서 터지는 예외"); }
         );
 
 
@@ -60,7 +60,7 @@ public class PleeServiceImpl implements PleeService {
 
         // collect NULL 예외처리 필요
         return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny().orElseThrow(
-                () -> new NotExistPlee("현재는플리가 없습니다.")
+                () -> new NotExistPlee("현재는 플리가 없습니다.")
         );
 
 

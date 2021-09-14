@@ -15,12 +15,12 @@ public class ControllerAdvice {
     public ErrorDto dupulicate(UserDupulicatedException e){
         return new ErrorDto(e.getMessage(),false);
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto emailNotFound(UsernameNotFoundException e){
         return new ErrorDto(e.getMessage(),false);
     }
-
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -33,7 +33,6 @@ public class ControllerAdvice {
     public ErrorDto notTime(TimeDissatisfactionException e){
         return new ErrorDto(e.getMessage(),false);
     }
-
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -52,7 +51,4 @@ public class ControllerAdvice {
     public ErrorDto alreadyExistGrowingPlee(AlreadyUserHaveGrowPlee e ){
         return new ErrorDto(e.getMessage(), false);
     }
-
-
-
 }

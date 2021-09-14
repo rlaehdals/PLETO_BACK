@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @Slf4j
-public class PleeController {
+public class PleeController{
 
     private final PleeService pleeService;
 
