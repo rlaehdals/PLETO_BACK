@@ -13,8 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,8 +61,6 @@ public class PleeServiceImpl implements PleeService {
         return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny().orElseThrow(
                 () -> new NotExistPlee("현재는 플리가 없습니다.")
         );
-
-
     }
 
     @Override
@@ -71,7 +68,6 @@ public class PleeServiceImpl implements PleeService {
         log.info("id: {}, location: {}", email, "PleeServiceImpl.findComplete");
         User user = userRepository.findByUsername(email).get();
         List<Plee> plees = pleeRepository.findByUser(user);
-
         return plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.COMPLETE).collect(Collectors.toList());
     }
 }
