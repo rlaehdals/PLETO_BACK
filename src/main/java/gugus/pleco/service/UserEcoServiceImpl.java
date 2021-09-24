@@ -52,7 +52,7 @@ public class UserEcoServiceImpl implements UserEcoService {
                 .findFirst()
                 .orElseThrow(
                         () -> {
-                            throw new NotExistPlee("현재 키우고 있는 플리가 없습니다.");
+                            throw new NotExistPlee("버튼을 눌러 엔딩을 확인해주세요!!");
                         }
                 );
         plee.addEcoCount();

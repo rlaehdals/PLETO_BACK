@@ -23,7 +23,7 @@ public class JwtTokenProvider {
 
     private String secretKey = "smuLookie99s";
 
-    private Long validTokenTime = 60* 60 *1000L;
+    private Long validTokenTime = 30 *60* 60 *1000L;
 
     private final UserDetailsService userDetailsService;
 
