@@ -97,7 +97,7 @@ class UserEcoServiceImplTest {
 
         //then
         String message = e.getMessage();
-        assertThat(message).isEqualTo("현재 키우고 있는 플리가 없음");
+        assertThat(message).isEqualTo("버튼을 눌러 엔딩을 확인해주세요!!");
     }
 
     @Test
