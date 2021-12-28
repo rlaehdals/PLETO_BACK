@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,29 +21,28 @@ import gugus.pleco.service.UserService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+
 public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
-
+    @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
     public signUpDto signup(@RequestBody UserDto userDto)throws UserDupulicatedException {
-        log.info("id: {}, location: {}",userDto.getEmail(),"UserController.signup.method");
         User user = userService.join(userDto);
         return new signUpDto(user.getId(), true);
     }
 
-
+    @Log
     @GetMapping("/duplicate")
     @ResponseStatus(HttpStatus.OK)
     public duplicateDto checkEmail(@RequestParam String email) throws UserDupulicatedException  {
-        log.info("id: {}, location: {}",email,"UserController.checkEmail");
         return new duplicateDto(userService.checkEmail(email));
     }
+    @Log
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public loginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        log.info("id: {}, location: {}",userDto.getEmail(),"UserController.login");
 
         User user = userService.login(userDto);
         return new loginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);

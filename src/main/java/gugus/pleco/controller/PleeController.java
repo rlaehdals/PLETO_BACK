@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.service.PleeService;
@@ -22,27 +23,24 @@ import java.util.stream.Collectors;
 public class PleeController{
 
     private final PleeService pleeService;
-
+    @Log
     @GetMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
     public PleeDto currentPleeCall(@RequestParam String email, HttpServletRequest request) throws Throwable{
-        log.info("id: {}, location: {}",email,"PleeController.currentPleeCall");
         Plee growPlee = pleeService.getGrowPlee(email);
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
-
+    @Log
     @GetMapping("/pleeDict")
     @ResponseStatus(HttpStatus.OK)
     public List<PleeDictDto> pleeDictCall(@RequestParam String email){
-        log.info("id: {}, location: {}",email,"PleeController.pleeDictCall");
         return pleeService.findComplete(email).stream()
                 .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
-
+    @Log
     @PostMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email) throws ExistSamePleeName {
-        log.info("id: {}, location: {}",email,"PleeController.createPlee");
         Long createPleeId = pleeService.createGrowPlee(email, createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);
     }

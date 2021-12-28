@@ -1,5 +1,6 @@
 package gugus.pleco.service;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
@@ -30,9 +31,9 @@ public class UserEcoServiceImpl implements UserEcoService {
     private final UserRepository userRepository;
     private final PleeRepository pleeRepository;
 
+    @Log
     @Override
     public Plee performEco(String username, String ecoName) throws RuntimeException, Throwable {
-        log.info("id: {}, location: {}", username, "UserEcoServiceImpl.performEco");
 
         //페치 조인써서 쿼리 최적화
         UserEco userEco = userEcoRepository.findByUserAndEcoName(username, ecoName).get();
@@ -57,16 +58,13 @@ public class UserEcoServiceImpl implements UserEcoService {
                 );
         plee.addEcoCount();
         userEco.setPerformTime(nowTime);
-        log.info("id: {}, location: {} status: {}", username, "UserEcoServiceImpl.performEco", "Complete");
         return plee;
     }
 
-
-
     //UserEco 수행할 수 있을때까지 남은시간 알려주는 함수
+    @Log
     @Override
     public LocalTime OneUserEcoTime(String email, String ecoName) {
-        log.info("id: {}, location: {}", email, "UserEcoServiceImpl.OneUserEcoTime");
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
         // UserEco 확인
@@ -75,13 +73,13 @@ public class UserEcoServiceImpl implements UserEcoService {
         LocalDateTime performTime = userEco.getPerformTime();
         // Eco 의 coolTime - (마지막 성공시간 - 현지새간) ->  UserEco 의 남은 coolTime 확인
         // 초를 시간으로 바꿈
-        log.info("id: {}, location: {}, status: {}", email, "UserEcoServiceImpl.OneUserEcoTime","Complete");
          return SecondChangeToTime(userEco.getEco().getCoolTime() - ChronoUnit.SECONDS.between(performTime, now));
 
     }
 
 
     // UserEco들에 관하여 실행 가능한 여부를 알려주는 로직
+    @Log
     @Override
     public List<UserEcoListDto> UserEcoStatus(String email) {
         log.info("id: {}, location: {}", email, "UserEcoServiceImpl.UserEcoStatus");

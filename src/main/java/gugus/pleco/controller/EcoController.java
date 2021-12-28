@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
@@ -24,26 +25,26 @@ public class EcoController {
     private final UserEcoService userEcoService;
 
 
+    @Log
     @PostMapping("/performEco")
     @ResponseStatus(HttpStatus.OK)
     public UserEcoDto perform(@RequestBody PerformDto performDto) throws RuntimeException, Throwable{
-        log.info("id: {}, location: {}",performDto.getEmail(),"EcoController.perform");
         Plee plee = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName());
         return new UserEcoDto(plee.getPleeName(),plee.getPleeStatus().toString());
     }
 
+    @Log
     @GetMapping("/ecoTime")
     @ResponseStatus(HttpStatus.OK)
     public RestEcoTimeDto getEcoTime(@RequestParam String email, @RequestParam String ecoName) {
-        log.info("id: {}, location: {}",email,"EcoController.getEcoTime");
         LocalTime localTime = userEcoService.OneUserEcoTime(email, ecoName);
         return new RestEcoTimeDto(localTime);
     }
 
+    @Log
     @GetMapping("/ecoList")
     @ResponseStatus(HttpStatus.OK)
     public List<UserEcoListDto> getEcoTimeList(@RequestParam String email) {
-        log.info("id: {}, location: {}",email,"EcoController.getEcoTimeList");
         return userEcoService.UserEcoStatus(email);
     }
 
