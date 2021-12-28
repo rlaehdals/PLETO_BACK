@@ -1,4 +1,4 @@
-package gugus.pleco.controller.dto;
+package gugus.pleco.controller.userdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package gugus.pleco.service;
 
-import gugus.pleco.controller.dto.UserDto;
+import gugus.pleco.controller.userdto.UserDto;
 import gugus.pleco.domain.User;
 import gugus.pleco.excetion.UserDupulicatedException;
 import gugus.pleco.jwt.JwtTokenProvider;
