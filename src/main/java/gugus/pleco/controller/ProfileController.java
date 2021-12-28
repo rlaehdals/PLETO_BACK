@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Log
 public class ProfileController {
 
     private final Environment env;

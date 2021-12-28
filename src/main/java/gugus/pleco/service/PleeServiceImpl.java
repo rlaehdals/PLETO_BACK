@@ -21,17 +21,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-@Log
 public class PleeServiceImpl implements PleeService {
 
     private final UserRepository userRepository;
     private final PleeRepository pleeRepository;
 
 
+    @Log
     @Override
     public Long createGrowPlee(String email, String pleeName, Long completeCount) throws ExistSamePleeName, AlreadyUserHaveGrowPlee{
 
-        log.info("id: {}, location: {}", email, "PleeServiceImpl.createGrowPlee");
 
         User user = userRepository.findByUsername(email).get();
 
@@ -48,14 +47,12 @@ public class PleeServiceImpl implements PleeService {
 
         Plee plee = pleeRepository.save(Plee.createPlee(user, pleeName, completeCount));
 
-        log.info("id: {}, location: {}, status: {}", email, "PleeServiceImpl.createGrowPlee","Complete");
 
         return plee.getId();
     }
-
+    @Log
     @Override
     public Plee getGrowPlee(String email) throws NotExistPlee, Throwable{
-        log.info("id: {}, location: {}", email, "PleeServiceImpl.getGrowPlee");
         User user = userRepository.findByUsername(email).get();
         List<Plee> Plees = pleeRepository.findByUser(user);
 
@@ -64,10 +61,9 @@ public class PleeServiceImpl implements PleeService {
                 () -> new NotExistPlee("현재는 플리가 없습니다.")
         );
     }
-
+    @Log
     @Override
     public List<Plee> findComplete(String email) {
-        log.info("id: {}, location: {}", email, "PleeServiceImpl.findComplete");
         User user = userRepository.findByUsername(email).get();
         List<Plee> plees = pleeRepository.findByUser(user);
         return plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.COMPLETE).collect(Collectors.toList());

@@ -15,7 +15,7 @@ public class LogAspect {
 
 
     @Before("@annotation(gugus.pleco.aop.aspect.annotation.Log)")
-    public void doLog(JoinPoint joinPoint) throws Throwable {
-        log.info("[target] = {}", joinPoint.getSignature());
+    public void doLog(JoinPoint joinPoint){
+        log.info("[target] = {} [args] = {} ", joinPoint.getSignature(), joinPoint.getArgs());
     }
 }
