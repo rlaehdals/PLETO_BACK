@@ -9,7 +9,6 @@ import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.excetion.TimeDissatisfactionException;
 import gugus.pleco.repositroy.PleeRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
-import gugus.pleco.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ import java.util.List;
 public class UserEcoServiceImpl implements UserEcoService {
 
     private final UserEcoRepository userEcoRepository;
-    private final UserRepository userRepository;
     private final PleeRepository pleeRepository;
 
     @Log
@@ -41,7 +39,7 @@ public class UserEcoServiceImpl implements UserEcoService {
         LocalDateTime performTime = userEco.getPerformTime();
         // 현재 시간 nowTime 가져오기
         LocalDateTime nowTime = LocalDateTime.now();
-        //입력들어온 eco에 대하여 쿨타임 조회
+        //입력들어온 eco 에 대하여 쿨타임 조회
         Long coolTime = userEco.getEco().getCoolTime();
 
         // 수행할 수 있는지 계산
@@ -61,7 +59,7 @@ public class UserEcoServiceImpl implements UserEcoService {
         return plee;
     }
 
-    //UserEco 수행할 수 있을때까지 남은시간 알려주는 함수
+
     @Log
     @Override
     public LocalTime OneUserEcoTime(String email, String ecoName) {
@@ -73,38 +71,36 @@ public class UserEcoServiceImpl implements UserEcoService {
         LocalDateTime performTime = userEco.getPerformTime();
         // Eco 의 coolTime - (마지막 성공시간 - 현지새간) ->  UserEco 의 남은 coolTime 확인
         // 초를 시간으로 바꿈
-         return SecondChangeToTime(userEco.getEco().getCoolTime() - ChronoUnit.SECONDS.between(performTime, now));
+        return SecondChangeToTime(userEco.getEco().getCoolTime() - ChronoUnit.SECONDS.between(performTime, now));
 
     }
+    @Override
+    @Log
+    public List<UserEco> findAll(String email) {
+        return userEcoRepository.findByUsername(email);
+    }
 
-
-    // UserEco들에 관하여 실행 가능한 여부를 알려주는 로직
     @Log
     @Override
     public List<UserEcoListDto> UserEcoStatus(String email) {
         log.info("id: {}, location: {}", email, "UserEcoServiceImpl.UserEcoStatus");
         //현재 시간
         LocalDateTime now = LocalDateTime.now();
-        //UserEco를 user_eco_id순으로 정렬
+        //UserEco 를 user_eco_id순 으로 정렬
         List<UserEco> userEcoList = userEcoRepository.findByUsername(email);
-        //dto를 담기위해 선언
+        //dto 를 담기위해 선언
         List<UserEcoListDto> userEcoListDtos = new ArrayList<>();
 
         for(UserEco userEco: userEcoList){
-            //마지막 수행 시간과 현재시간을 비교하여 cooltime보다 크다면 possible 작다면 impossible
+            //마지막 수행 시간과 현재시간을 비교하여 cooltime 보다 크다면 possible 작다면 impossible
             String status = checkStatus(userEco.getPerformTime(), now, userEco.getEco().getCoolTime());
-            // 반환을 위한 DTO 변환 dto클래스는 controller/dto 패키지에 있음
+            // 반환을 위한 DTO 변환 dto 클래스는 controller/dto 패키지에 있음
             userEcoListDtos.add(new UserEcoListDto(userEco.getEco().getEcoName()
                     ,SecondChangeToTime(userEco.getEco().getCoolTime())
                     ,status));
         }
         log.info("id: {}, location: {}, status: {}", email, "UserEcoServiceImpl.UserEcoStatus","Complete");
         return userEcoListDtos;
-    }
-
-    @Override
-    public List<UserEco> findAll(String email) {
-        return userEcoRepository.findByUsername(email);
     }
 
     private String checkStatus(LocalDateTime performTime, LocalDateTime nowTime, Long coolTime){
@@ -120,7 +116,6 @@ public class UserEcoServiceImpl implements UserEcoService {
     private LocalTime SecondChangeToTime(Long second){
         if(second<=0){
             return LocalTime.of(0,0,0,0);
-
         }
         LocalTime localTime = LocalTime.of(second.intValue()/3600,(second.intValue()%3600)/60,second.intValue()%60,0);
         return localTime;
@@ -134,6 +129,4 @@ public class UserEcoServiceImpl implements UserEcoService {
             throw new TimeDissatisfactionException("아직 미션을 할 수 있는 시간이 아닙니다.");
         }
     }
-
-
 }

@@ -1,5 +1,6 @@
 package gugus.pleco.jwt;
 
+import gugus.pleco.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -18,14 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Component
 public class JwtTokenProvider {
 
     private String secretKey = "smuLookie99s";
 
     private Long validTokenTime = 30 *60* 60 *1000L;
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @PostConstruct
     protected void init() {
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
