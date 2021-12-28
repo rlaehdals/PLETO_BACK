@@ -33,14 +33,15 @@ public class PleeServiceImpl implements PleeService {
 
 
         User user = userRepository.findByUsername(email).get();
+        String username = user.getUsername();
 
-        pleeRepository.findByPleeNameAndUser(user,pleeName)
+        pleeRepository.findByPleeNameAndUser(username,pleeName)
                 .ifPresent(m -> {
                     throw new ExistSamePleeName("플리를 저장하려고 할 때 플리 이름이 중복되는 것이 있을 때");
                 });
 
         // 사용자의 growPlee가 이미 있으면 예외
-        pleeRepository.findByUser(user).stream().filter(m -> m.getPleeStatus()==PleeStatus.GROWING).findAny().ifPresent(
+        pleeRepository.findByUser(username).stream().filter(m -> m.getPleeStatus()==PleeStatus.GROWING).findAny().ifPresent(
                 m -> {throw new AlreadyUserHaveGrowPlee("플리를 새로 생성할 때 이미 플리가 있어서 터지는 예외"); }
         );
 
@@ -53,8 +54,8 @@ public class PleeServiceImpl implements PleeService {
     @Log
     @Override
     public Plee getGrowPlee(String email) throws NotExistPlee, Throwable{
-        User user = userRepository.findByUsername(email).get();
-        List<Plee> Plees = pleeRepository.findByUser(user);
+        String username = userRepository.findByUsername(email).get().getUsername();
+        List<Plee> Plees = pleeRepository.findByUser(username);
 
         // collect NULL 예외처리 필요
         return Plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.GROWING).findAny().orElseThrow(
@@ -64,8 +65,8 @@ public class PleeServiceImpl implements PleeService {
     @Log
     @Override
     public List<Plee> findComplete(String email) {
-        User user = userRepository.findByUsername(email).get();
-        List<Plee> plees = pleeRepository.findByUser(user);
+        String username = userRepository.findByUsername(email).get().getUsername();
+        List<Plee> plees = pleeRepository.findByUser(username);
         return plees.stream().filter(m -> m.getPleeStatus() == PleeStatus.COMPLETE).collect(Collectors.toList());
     }
 }
