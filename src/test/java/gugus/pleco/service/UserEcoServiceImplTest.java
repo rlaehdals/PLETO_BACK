@@ -1,7 +1,7 @@
 package gugus.pleco.service;
 
-import gugus.pleco.controller.dto.UserDto;
-import gugus.pleco.controller.dto.UserEcoListDto;
+import gugus.pleco.controller.userdto.UserDto;
+import gugus.pleco.controller.userdto.UserEcoListDto;
 import gugus.pleco.domain.*;
 import gugus.pleco.excetion.NotExistPlee;
 import gugus.pleco.excetion.TimeDissatisfactionException;

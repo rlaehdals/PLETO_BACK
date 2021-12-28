@@ -1,6 +1,9 @@
 package gugus.pleco.controller;
 
 import gugus.pleco.aop.aspect.annotation.Log;
+import gugus.pleco.controller.pleedto.CreatePleeDto;
+import gugus.pleco.controller.pleedto.PleeDictDto;
+import gugus.pleco.controller.pleedto.PleeDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.service.PleeService;
@@ -45,23 +48,5 @@ public class PleeController{
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);
     }
 
-    @Data
-    @AllArgsConstructor
-    static class PleeDto{
-        String pleeName;
-        Long ecoCount;
-    }
 
-    @Data
-    @AllArgsConstructor
-    static class PleeDictDto{
-        String pleeName;
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class CreatePleeDto{
-        String pleeName;
-        Long completeCount;
-    }
 }

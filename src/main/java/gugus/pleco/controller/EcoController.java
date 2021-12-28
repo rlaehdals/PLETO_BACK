@@ -1,18 +1,17 @@
 package gugus.pleco.controller;
 
 import gugus.pleco.aop.aspect.annotation.Log;
-import gugus.pleco.controller.dto.UserEcoListDto;
+import gugus.pleco.controller.pleedto.PerformDto;
+import gugus.pleco.controller.ecodto.RestEcoTimeDto;
+import gugus.pleco.controller.userdto.UserEcoDto;
+import gugus.pleco.controller.userdto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
-import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.service.UserEcoService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+
 import java.time.LocalTime;
 import java.util.List;
 
@@ -48,29 +47,8 @@ public class EcoController {
         return userEcoService.UserEcoStatus(email);
     }
 
-    @Data
-    @AllArgsConstructor
-    static class UserEcoDto {
-        String pleeName;
-        String status;
-    }
 
 
-    @Data
-    @AllArgsConstructor
-    static class RestEcoTimeDto {
-        LocalTime restCoolTime;
-    }
 
-    @Data
-    @AllArgsConstructor
-    static class PerformDto {
 
-        @Email
-        @NotNull
-        String email;
-
-        @NotNull
-        String ecoName;
-    }
 }
