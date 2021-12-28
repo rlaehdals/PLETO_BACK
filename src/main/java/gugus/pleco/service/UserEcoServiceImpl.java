@@ -1,5 +1,6 @@
 package gugus.pleco.service;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@Log
 public class UserEcoServiceImpl implements UserEcoService {
 
     private final UserEcoRepository userEcoRepository;

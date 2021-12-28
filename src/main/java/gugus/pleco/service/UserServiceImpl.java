@@ -1,5 +1,6 @@
 package gugus.pleco.service;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.excetion.UserDupulicatedException;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@Log
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;

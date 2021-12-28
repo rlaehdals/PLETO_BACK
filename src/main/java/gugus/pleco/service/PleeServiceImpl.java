@@ -1,5 +1,6 @@
 package gugus.pleco.service;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
 import gugus.pleco.domain.User;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@Log
 public class PleeServiceImpl implements PleeService {
 
     private final UserRepository userRepository;

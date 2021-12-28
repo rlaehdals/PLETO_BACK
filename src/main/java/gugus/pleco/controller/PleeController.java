@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.service.PleeService;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @Slf4j
+@Log
 public class PleeController{
 
     private final PleeService pleeService;

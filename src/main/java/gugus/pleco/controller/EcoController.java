@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.dto.UserEcoListDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.domain.PleeStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @Slf4j
+@Log
 public class EcoController {
 
     private final UserEcoService userEcoService;

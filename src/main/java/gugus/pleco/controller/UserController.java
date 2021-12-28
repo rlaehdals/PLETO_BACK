@@ -1,5 +1,6 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.aspect.annotation.Log;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import gugus.pleco.service.UserService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Log
 public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
