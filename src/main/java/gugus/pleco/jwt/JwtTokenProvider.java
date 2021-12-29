@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Component
 public class JwtTokenProvider {
 
     private String secretKey = "smuLookie99s";
@@ -26,6 +26,7 @@ public class JwtTokenProvider {
     private Long validTokenTime = 30 *60* 60 *1000L;
 
     private final UserService userService;
+
 
     @PostConstruct
     protected void init() {

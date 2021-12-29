@@ -7,8 +7,6 @@ import gugus.pleco.controller.pleedto.PleeDto;
 import gugus.pleco.domain.Plee;
 import gugus.pleco.excetion.ExistSamePleeName;
 import gugus.pleco.service.PleeService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

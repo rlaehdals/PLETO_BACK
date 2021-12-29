@@ -4,29 +4,25 @@ import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.userdto.DuplicateDto;
 import gugus.pleco.controller.userdto.LoginDto;
 import gugus.pleco.controller.userdto.SignUpDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import gugus.pleco.controller.userdto.UserDto;
+import gugus.pleco.domain.User;
+import gugus.pleco.excetion.UserDupulicatedException;
+import gugus.pleco.jwt.JwtTokenProvider;
+import gugus.pleco.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import gugus.pleco.controller.userdto.UserDto;
-import gugus.pleco.domain.User;
-import gugus.pleco.excetion.UserDupulicatedException;
-import gugus.pleco.jwt.JwtTokenProvider;
-import gugus.pleco.service.UserService;
 
 
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-
 public class UserController {
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
@@ -45,7 +41,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(userService);
         User user = userService.login(userDto);
         return new LoginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);
     }
