@@ -1,4 +1,4 @@
-package gugus.pleco;
+package gugus.pleco.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
