@@ -1,5 +1,7 @@
 package gugus.pleco.controller;
 
+import gugus.pleco.aop.argumentresolver.JwtDto;
+import gugus.pleco.aop.argumentresolver.LoginUser;
 import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.pleedto.CreatePleeDto;
 import gugus.pleco.controller.pleedto.PleeDictDto;
@@ -27,22 +29,22 @@ public class PleeController{
     @Log
     @GetMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public PleeDto currentPleeCall(@RequestParam String email, HttpServletRequest request) throws Throwable{
-        Plee growPlee = pleeService.getGrowPlee(email);
+    public PleeDto currentPleeCall(@LoginUser JwtDto jwtDto) throws Throwable{
+        Plee growPlee = pleeService.getGrowPlee(jwtDto.getEmail());
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
     @Log
     @GetMapping("/pleeDict")
     @ResponseStatus(HttpStatus.OK)
-    public List<PleeDictDto> pleeDictCall(@RequestParam String email){
-        return pleeService.findComplete(email).stream()
+    public List<PleeDictDto> pleeDictCall(@LoginUser JwtDto jwtDto){
+        return pleeService.findComplete(jwtDto.getEmail()).stream()
                 .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
     @Log
     @PostMapping("/growPlee")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @RequestParam String email) throws ExistSamePleeName {
-        Long createPleeId = pleeService.createGrowPlee(email, createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
+    public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @LoginUser JwtDto jwtDto) throws ExistSamePleeName {
+        Long createPleeId = pleeService.createGrowPlee(jwtDto.getEmail(), createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
         return new ResponseEntity<>(createPleeId, HttpStatus.OK);
     }
 
