@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@RequiredArgsConstructor
 public class PlecoApplication {
 
 
