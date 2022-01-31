@@ -6,6 +6,7 @@ import gugus.pleco.domain.Eco;
 import gugus.pleco.domain.User;
 import gugus.pleco.domain.UserEco;
 import gugus.pleco.excetion.UserDupulicatedException;
+import gugus.pleco.jwt.JwtTokenProvider;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserEcoRepository userEcoRepository;
     private final EcoRepository ecoRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     @Log
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -71,7 +74,7 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public User login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
+    public String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
         User user = userRepository.findByUsername(userDto.getEmail())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
@@ -79,7 +82,10 @@ public class UserServiceImpl implements UserService{
         if(!passwordEncoder.matches(userDto.getPassword(),user.getPassword())){
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
-        return user;
+        List<Eco> all = ecoRepository.findAll();
+        Map<String, String> map = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        user.setRefreshToken(map.get("refresh"));
+        return map.get("access");
     }
 
     @Log

@@ -1,21 +1,11 @@
 spring:
-  datasource:
-    username: pleco
-    password: 4815592kim!
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pleco?serverTimezone=UTC&characterEncoding=UTF-8
-#    username:
-#    password:
-#    driver-class-name: org.h2.Driver
-#    url:
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true
-      default_batch_fetch_size: 100
+  profiles:
+    active: real1
+    include: real-db
 
-logging:
-  level:
-    org.hibernate.SQL: debug
+---
+
+spring:
+  profiles:
+    active: real2
+    include: real-db

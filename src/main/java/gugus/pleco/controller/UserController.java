@@ -12,10 +12,13 @@ import gugus.pleco.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -40,10 +43,10 @@ public class UserController {
     @Log
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public LoginDto login(@RequestBody UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(userService);
-        User user = userService.login(userDto);
-        return new LoginDto(jwtTokenProvider.createToken(user.getUsername(),user.getRoles()),true, 0L);
+    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
+        String accessToken = userService.login(userDto);
+        response.setHeader("X-AUTH-TOKEN",accessToken);
+        return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
 
 }

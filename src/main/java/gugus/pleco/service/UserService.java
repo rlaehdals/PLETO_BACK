@@ -12,7 +12,7 @@ public interface UserService extends UserDetailsService {
     User join(UserDto userDto) throws UserDupulicatedException;
 
 
-    User login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable;
+    String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable;
 
     User findById(Long id);
 

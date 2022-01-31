@@ -15,7 +15,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+application-real-db.yml
 ### IntelliJ IDEA ###
 .idea
 *.iws
