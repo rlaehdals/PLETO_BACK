@@ -2,6 +2,7 @@ package gugus.pleco.config;
 
 import gugus.pleco.jwt.JwtAuthenticationFilter;
 import gugus.pleco.jwt.JwtTokenProvider;
+import gugus.pleco.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     @Override
     @Bean
@@ -36,9 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/signup","/","/login","/duplicate","/profile").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,userRepository), UsernamePasswordAuthenticationFilter.class);
     }
-
-
-
 }
