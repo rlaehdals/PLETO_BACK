@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserEcoRepository userEcoRepository;
     private final EcoRepository ecoRepository;
-    private final JwtTokenProvider jwtTokenProvider;
     @Log
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
+    public Long login(UserDto userDto, String refreshToken) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
         User user = userRepository.findByUsername(userDto.getEmail())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
@@ -83,9 +82,8 @@ public class UserServiceImpl implements UserService{
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
         List<Eco> all = ecoRepository.findAll();
-        Map<String, String> map = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
-        user.setRefreshToken(map.get("refresh"));
-        return map.get("access");
+        user.setRefreshToken(refreshToken);
+        return user.getId();
     }
 
     @Log

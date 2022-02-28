@@ -12,7 +12,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component
 @RequiredArgsConstructor
 public class JwtArgumentResolver implements HandlerMethodArgumentResolver {
 

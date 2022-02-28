@@ -2,7 +2,6 @@ package gugus.pleco.controller;
 
 import gugus.pleco.aop.aspect.annotation.Log;
 import gugus.pleco.controller.userdto.DuplicateDto;
-import gugus.pleco.controller.userdto.LoginDto;
 import gugus.pleco.controller.userdto.SignUpDto;
 import gugus.pleco.controller.userdto.UserDto;
 import gugus.pleco.domain.User;
@@ -17,8 +16,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Map;
 
 
 @RestController
@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
@@ -44,8 +45,9 @@ public class UserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        String accessToken = userService.login(userDto);
-        response.setHeader("X-AUTH-TOKEN",accessToken);
+        Map<String, String> map = jwtTokenProvider.createToken(userDto.getEmail(), Arrays.asList("ROLE_USER"));
+        Long id = userService.login(userDto,map.get("refresh"));
+        response.setHeader("X-AUTH-TOKEN",map.get("access"));
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
 
