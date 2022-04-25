@@ -1,6 +1,7 @@
 package gugus.pleco.aop.argumentresolver;
 
 import gugus.pleco.jwt.JwtTokenProvider;
+import gugus.pleco.repositroy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.build.Plugin;
 import org.springframework.core.MethodParameter;
@@ -21,19 +22,16 @@ public class JwtArgumentResolver implements HandlerMethodArgumentResolver {
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
         boolean hasJwtType = JwtDto.class.isAssignableFrom(parameter.getParameterType());
-
         return hasAnnotation && hasJwtType;
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        HttpServletRequest request = (HttpServletRequest) webRequest;
-        String token = jwtTokenProvider.resolveToken(request);
-
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        String token = (String) request.getAttribute("X-AUTH-TOKEN");
         if(token==null){
             return null;
         }
-
         return new JwtDto(jwtTokenProvider.getUserPk(token));
     }
 }
