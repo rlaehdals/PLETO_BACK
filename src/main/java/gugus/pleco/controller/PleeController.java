@@ -27,21 +27,21 @@ public class PleeController{
 
     private final PleeService pleeService;
     @Log
-    @GetMapping("/growPlee")
+    @GetMapping("/plee")
     @ResponseStatus(HttpStatus.OK)
     public PleeDto currentPleeCall(@LoginUser JwtDto jwtDto) throws Throwable{
         Plee growPlee = pleeService.getGrowPlee(jwtDto.getEmail());
         return new PleeDto(growPlee.getPleeName(),growPlee.getEcoCount());
     }
     @Log
-    @GetMapping("/pleeDict")
+    @GetMapping("/plees")
     @ResponseStatus(HttpStatus.OK)
     public List<PleeDictDto> pleeDictCall(@LoginUser JwtDto jwtDto){
         return pleeService.findComplete(jwtDto.getEmail()).stream()
                 .map(m -> new PleeDictDto(m.getPleeName())).collect(Collectors.toList());
     }
     @Log
-    @PostMapping("/growPlee")
+    @PostMapping("/plee")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createPlee(@RequestBody CreatePleeDto createPleeDto, @LoginUser JwtDto jwtDto) throws ExistSamePleeName {
         Long createPleeId = pleeService.createGrowPlee(jwtDto.getEmail(), createPleeDto.getPleeName(), createPleeDto.getCompleteCount());
