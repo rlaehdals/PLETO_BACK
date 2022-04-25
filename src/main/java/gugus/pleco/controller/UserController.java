@@ -14,9 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -26,7 +29,8 @@ import java.util.Map;
 @Slf4j
 public class UserController {
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
+
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
@@ -44,11 +48,10 @@ public class UserController {
     @Log
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        Map<String, String> map = jwtTokenProvider.createToken(userDto.getEmail(), Arrays.asList("ROLE_USER"));
-        Long id = userService.login(userDto,map.get("refresh"));
-        response.setHeader("X-AUTH-TOKEN",map.get("access"));
+    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
+        String accessToken = userService.login(userDto);
+        response.setHeader("X-AUTH-TOKEN",accessToken);
+        response.setHeader("USERNAME", userDto.getEmail());
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
-
 }
