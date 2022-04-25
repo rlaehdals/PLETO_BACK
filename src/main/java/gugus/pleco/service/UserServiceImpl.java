@@ -10,6 +10,7 @@ import gugus.pleco.jwt.JwtTokenProvider;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserEcoRepository userEcoRepository;
     private final EcoRepository ecoRepository;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Log
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -73,7 +77,7 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public Long login(UserDto userDto, String refreshToken) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
+    public String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
         User user = userRepository.findByUsername(userDto.getEmail())
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
@@ -82,10 +86,13 @@ public class UserServiceImpl implements UserService{
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
         List<Eco> all = ecoRepository.findAll();
-        user.setRefreshToken(refreshToken);
-        return user.getId();
-    }
+        Map<String, String> map = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
 
+        if(user.getRefreshToken()==null){
+            user.setRefreshToken(map.get("refresh"));
+        }
+        return map.get("access");
+    }
     @Log
     @Override
     public User findById(Long id) {
