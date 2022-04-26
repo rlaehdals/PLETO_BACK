@@ -46,14 +46,14 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public User join(UserDto userDto) throws UserDupulicatedException{
-        userRepository.findByUsername(userDto.getEmail())
+    public User join(String email, String password) throws UserDupulicatedException{
+        userRepository.findByUsername(email)
                 .ifPresent(m->{
                     throw new UserDupulicatedException("이미 존재하는 아이디 입니다.");
                 });
         User user = userRepository.save(User.builder()
-                .username(userDto.getEmail())
-                .password(passwordEncoder.encode(userDto.password))
+                .username(email)
+                .password(passwordEncoder.encode(password))
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
         List<Eco> all = ecoRepository.findAll();
@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
-        User user = userRepository.findByUsername(userDto.getEmail())
+    public String login(String email, String password) throws UsernameNotFoundException, BadCredentialsException ,Throwable{
+        User user = userRepository.findByUsername(email)
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
                 });
-        if(!passwordEncoder.matches(userDto.getPassword(),user.getPassword())){
+        if(!passwordEncoder.matches(password,user.getPassword())){
             throw new BadCredentialsException("잘못된 비밀번호입니다.");
         }
         List<Eco> all = ecoRepository.findAll();

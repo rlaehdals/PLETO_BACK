@@ -29,13 +29,12 @@ import java.util.Map;
 @Slf4j
 public class UserController {
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
     public SignUpDto signup(@RequestBody UserDto userDto)throws UserDupulicatedException {
-        User user = userService.join(userDto);
+        User user = userService.join(userDto.getEmail(), userDto.getPassword());
         return new SignUpDto(user.getId(), true);
     }
 
@@ -49,7 +48,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        String accessToken = userService.login(userDto);
+        String accessToken = userService.login(userDto.getEmail(),userDto.getPassword());
         response.setHeader("X-AUTH-TOKEN",accessToken);
         response.setHeader("USERNAME", userDto.getEmail());
         return new ResponseEntity<String>("ok",HttpStatus.OK);

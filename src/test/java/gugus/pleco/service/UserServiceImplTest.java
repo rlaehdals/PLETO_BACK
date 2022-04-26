@@ -81,7 +81,7 @@ class UserServiceImplTest {
     @Test
     void join() {
         UserDto userDto = new UserDto("rlaehdals@gmail.com", "asdf");
-        User user = userService.join(userDto);
+        User user = userService.join(userDto.getEmail(), userDto.getPassword());
 
 
         assertThat(userDto.getEmail()).isEqualTo(user.getUsername());
@@ -93,7 +93,7 @@ class UserServiceImplTest {
         //생성
         UserDto userDto = new UserDto("rkdlem48@gmail.com", "asdf");
         //실행
-        assertThrows(UserDupulicatedException.class, () -> userService.join(userDto));
+        assertThrows(UserDupulicatedException.class, () -> userService.join(userDto.getEmail(), userDto.getPassword()));
     }
 
     @Test
@@ -107,7 +107,7 @@ class UserServiceImplTest {
     void loginCanNotFindEmail() {
         UserDto userDto = new UserDto("aaaa@gmail.com", "asdf");
 
-        assertThrows(UsernameNotFoundException.class, () -> userService.login(userDto));
+        assertThrows(UsernameNotFoundException.class, () -> userService.login(userDto.getEmail(), userDto.getPassword()));
 
 
     }
@@ -117,6 +117,6 @@ class UserServiceImplTest {
 
         UserDto userDto = new UserDto("rkdlem48@gmail.com", "1234");
 
-        assertThrows(BadCredentialsException.class, () -> userService.login(userDto));
+        assertThrows(BadCredentialsException.class, () -> userService.login(userDto.getEmail(), userDto.getPassword()));
     }
 }
