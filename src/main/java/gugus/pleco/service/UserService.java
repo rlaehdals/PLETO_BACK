@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface UserService extends UserDetailsService {
 
-    User join(UserDto userDto) throws UserDupulicatedException;
+    User join(String email, String password) throws UserDupulicatedException;
 
 
-    String login(UserDto userDto) throws UsernameNotFoundException, BadCredentialsException, Throwable;
+    String login(String email, String password) throws UsernameNotFoundException, BadCredentialsException, Throwable;
 
     User findById(Long id);
 

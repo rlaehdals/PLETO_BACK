@@ -249,6 +249,6 @@ class UserEcoServiceImplTest {
     private void createUser(String email, String password) {
 
         UserDto userDto = new UserDto(email, password);
-        userService.join(userDto);
+        userService.join(userDto.getEmail(),userDto.getPassword());
     }
 }
