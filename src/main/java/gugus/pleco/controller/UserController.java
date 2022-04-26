@@ -15,12 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -33,9 +37,19 @@ public class UserController {
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public SignUpDto signup(@RequestBody UserDto userDto)throws UserDupulicatedException {
+    public ResponseEntity<?> signup(@Validated @RequestBody UserDto userDto, BindingResult bindingResult)throws UserDupulicatedException {
+        Map<String, String> map =new HashMap<>();
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().stream()
+                    .forEach(a -> {
+                        String field = ((FieldError) a).getField();
+                        String defaultMessage = a.getDefaultMessage();
+                        map.put(field, defaultMessage);
+                    });
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
         User user = userService.join(userDto.getEmail(), userDto.getPassword());
-        return new SignUpDto(user.getId(), true);
+        return new ResponseEntity<>(user.getId(),HttpStatus.CREATED);
     }
 
     @Log
