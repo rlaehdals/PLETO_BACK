@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @Log
-    @GetMapping("/duplicate")
+    @GetMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
     public DuplicateDto checkEmail(@RequestParam String email) throws UserDupulicatedException  {
         return new DuplicateDto(userService.checkEmail(email));
