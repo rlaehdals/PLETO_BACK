@@ -10,6 +10,7 @@ import gugus.pleco.jwt.JwtTokenProvider;
 import gugus.pleco.repositroy.EcoRepository;
 import gugus.pleco.repositroy.UserEcoRepository;
 import gugus.pleco.repositroy.UserRepository;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserEcoRepository userEcoRepository;
     private final EcoRepository ecoRepository;
+
     private final JwtTokenProvider jwtTokenProvider;
+
     @Log
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -84,10 +87,12 @@ public class UserServiceImpl implements UserService{
         }
         List<Eco> all = ecoRepository.findAll();
         Map<String, String> map = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
-        user.setRefreshToken(map.get("refresh"));
+
+        if(user.getRefreshToken()==null){
+            user.setRefreshToken(map.get("refresh"));
+        }
         return map.get("access");
     }
-
     @Log
     @Override
     public User findById(Long id) {

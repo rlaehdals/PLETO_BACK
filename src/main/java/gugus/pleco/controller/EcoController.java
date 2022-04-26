@@ -27,7 +27,7 @@ public class EcoController {
 
 
     @Log
-    @PostMapping("/performEco")
+    @PostMapping("/eco")
     @ResponseStatus(HttpStatus.OK)
     public UserEcoDto perform(@RequestBody PerformDto performDto) throws RuntimeException, Throwable{
         Plee plee = userEcoService.performEco(performDto.getEmail(), performDto.getEcoName());
@@ -35,7 +35,7 @@ public class EcoController {
     }
 
     @Log
-    @GetMapping("/ecoTime")
+    @GetMapping("/eco")
     @ResponseStatus(HttpStatus.OK)
     public RestEcoTimeDto getEcoTime(@LoginUser JwtDto jwtDto, @RequestParam String ecoName) {
         LocalTime localTime = userEcoService.OneUserEcoTime(jwtDto.getEmail(), ecoName);
@@ -43,7 +43,7 @@ public class EcoController {
     }
 
     @Log
-    @GetMapping("/ecoList")
+    @GetMapping("/ecos")
     @ResponseStatus(HttpStatus.OK)
     public List<UserEcoListDto> getEcoTimeList(@LoginUser JwtDto jwtDto) {
         return userEcoService.UserEcoStatus(jwtDto.getEmail());
