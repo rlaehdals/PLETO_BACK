@@ -1,5 +1,6 @@
-package gugus.pleco.excetion;
+package gugus.pleco.controller;
 
+import gugus.pleco.excetion.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
