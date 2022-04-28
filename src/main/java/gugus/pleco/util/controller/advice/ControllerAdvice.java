@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(basePackages = "gugus.pleco.controller")
+@RestControllerAdvice(basePackages = "gugus.pleco.domain")
 public class ControllerAdvice {
 
     @ExceptionHandler
