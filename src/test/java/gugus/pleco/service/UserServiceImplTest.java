@@ -1,10 +1,11 @@
 package gugus.pleco.service;
 
-import gugus.pleco.controller.userdto.UserDto;
-import gugus.pleco.domain.User;
-import gugus.pleco.excetion.UserDupulicatedException;
-import gugus.pleco.jwt.JwtTokenProvider;
-import gugus.pleco.repositroy.UserRepository;
+import gugus.pleco.domain.user.dto.UserDto;
+import gugus.pleco.domain.user.domain.User;
+import gugus.pleco.domain.user.service.UserService;
+import gugus.pleco.util.excetion.UserDupulicatedException;
+import gugus.pleco.util.jwt.JwtTokenProvider;
+import gugus.pleco.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

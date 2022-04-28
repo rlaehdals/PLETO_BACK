@@ -1,7 +1,7 @@
 package gugus.pleco.config;
 
-import gugus.pleco.aop.argumentresolver.JwtArgumentResolver;
-import gugus.pleco.jwt.JwtTokenProvider;
+import gugus.pleco.util.aop.argumentresolver.JwtArgumentResolver;
+import gugus.pleco.util.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
