@@ -1,13 +1,13 @@
 package gugus.pleco.service;
 
-import gugus.pleco.domain.Plee;
-import gugus.pleco.domain.PleeStatus;
-import gugus.pleco.domain.User;
-import gugus.pleco.excetion.AlreadyUserHaveGrowPlee;
-import gugus.pleco.excetion.ExistSamePleeName;
-import gugus.pleco.repositroy.PleeRepository;
-import gugus.pleco.repositroy.UserRepository;
-import org.assertj.core.api.Assertions;
+import gugus.pleco.domain.plee.domain.Plee;
+import gugus.pleco.domain.plee.domain.PleeStatus;
+import gugus.pleco.domain.plee.service.PleeServiceImpl;
+import gugus.pleco.domain.user.domain.User;
+import gugus.pleco.util.excetion.AlreadyUserHaveGrowPlee;
+import gugus.pleco.util.excetion.ExistSamePleeName;
+import gugus.pleco.domain.plee.repository.PleeRepository;
+import gugus.pleco.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,8 @@ class PleeServiceImplTest {
 
     @Autowired UserRepository userRepository;
     @Autowired PleeRepository pleeRepository;
-    @Autowired PleeServiceImpl pleeService;
+    @Autowired
+    PleeServiceImpl pleeService;
     @Autowired PasswordEncoder passwordEncoder;
 
     @BeforeEach

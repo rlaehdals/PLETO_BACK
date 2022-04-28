@@ -1,9 +1,9 @@
 package gugus.pleco.config;
 
-import gugus.pleco.jwt.JwtAuthenticationFilter;
-import gugus.pleco.jwt.JwtExceptionFilter;
-import gugus.pleco.jwt.JwtTokenProvider;
-import gugus.pleco.repositroy.UserRepository;
+import gugus.pleco.util.jwt.JwtAuthenticationFilter;
+import gugus.pleco.util.jwt.JwtExceptionFilter;
+import gugus.pleco.util.jwt.JwtTokenProvider;
+import gugus.pleco.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
