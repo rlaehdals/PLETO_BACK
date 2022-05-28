@@ -20,4 +20,3 @@ Pleco의 백엔드 관련 레포지토리 입니다.
 ![설계-모델](https://github.com/PLETO-99s/PLETO_BACK/blob/main/public/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-07%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2011.14.29.png?raw=true)
 
 ![결과물-시나리오](https://github.com/PLETO-99s/PLETO_BACK/blob/main/public/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-07%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%2011.14.49.png?raw=true)
->>>>>>> main
