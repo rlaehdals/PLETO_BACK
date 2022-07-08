@@ -23,7 +23,7 @@ public class JwtTokenProvider {
     @Value("${refreshtoken.secret")
     private String refreshToken;
 
-    private final Long ACCESS_TOKEN_TIME = 20000L; //accessToken 유효시간 30분
+    private final Long ACCESS_TOKEN_TIME = 60 * 30 *1000L; //accessToken 유효시간 30분
     private final Long REFRESH_TOKEN_TIME = 60 * 60 * 24 * 30 * 1000L; //유효시간 1달
 
 
@@ -53,8 +53,8 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, this.refreshToken)
                 .compact();
         Map<String, String> map = new HashMap<>();
-        map.put("access", accestToken);
-        map.put("refresh", refreshToken);
+        map.put("ACCESS-TOKEN", accestToken);
+        map.put("REFRESH-TOKEN", refreshToken);
         return map;
     }
 
@@ -68,7 +68,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("ACCESS-TOKEN");
     }
 
     public boolean validateAccessToken(String jwtToken) {

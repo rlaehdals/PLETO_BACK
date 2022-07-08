@@ -20,24 +20,13 @@ import java.util.Map;
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilter {
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository userRepository;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest hRequest = (HttpServletRequest) request;
-        String accessToken = jwtTokenProvider.resolveToken(hRequest);
+        String accessToken = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         if(accessToken!=null){
-            String email = ((HttpServletRequest) request).getHeader("USERNAME");
-            log.info("{}", email);
-            User user = userRepository.findByUsername(email).orElseThrow(()->{
-                throw new JwtRefreshTokenNotFoundUsername("없는 유저의 요청입니다. ");
-            });
-            if(jwtTokenProvider.validateAccessToken(accessToken) || jwtTokenProvider.validateRefreshToken(user.getRefreshToken())){
-                Map<String, String> tokenMap = jwtTokenProvider.createToken(email, user.getRoles());
-                HttpServletResponse hResponse = (HttpServletResponse) response;
-                hResponse.setHeader("X-AUTH-TOKEN",tokenMap.get("access"));
-                hRequest.setAttribute("X-AUTH-TOKEN",tokenMap.get("access"));
-                Authentication authentication = jwtTokenProvider.getAuthentication(tokenMap.get("access"));
+            if(jwtTokenProvider.validateAccessToken(accessToken)){
+                Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

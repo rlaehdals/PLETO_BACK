@@ -4,7 +4,7 @@ import gugus.pleco.util.aop.aspect.annotation.Log;
 import gugus.pleco.domain.user.dto.DuplicateDto;
 import gugus.pleco.domain.user.dto.UserDto;
 import gugus.pleco.domain.user.domain.User;
-import gugus.pleco.util.excetion.UserDupulicatedException;
+import gugus.pleco.util.excetion.UserDuplicatedException;
 import gugus.pleco.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class UserController {
     @Log
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> signup(@Validated @RequestBody UserDto userDto, BindingResult bindingResult)throws UserDupulicatedException {
+    public ResponseEntity<?> signup(@Validated @RequestBody UserDto userDto, BindingResult bindingResult)throws UserDuplicatedException {
         Map<String, String> map =new HashMap<>();
         if(bindingResult.hasErrors()) {
             bindingResult.getAllErrors().stream()
@@ -50,16 +50,16 @@ public class UserController {
     @Log
     @GetMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public DuplicateDto checkEmail(@RequestParam String email) throws UserDupulicatedException  {
+    public DuplicateDto checkEmail(@RequestParam String email) throws UserDuplicatedException {
         return new DuplicateDto(userService.checkEmail(email));
     }
     @Log
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException, Throwable {
-        String accessToken = userService.login(userDto.getEmail(),userDto.getPassword());
-        response.setHeader("X-AUTH-TOKEN",accessToken);
-        response.setHeader("USERNAME", userDto.getEmail());
+    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException {
+        Map<String, String> map = userService.login(userDto.getEmail(), userDto.getPassword());
+        response.setHeader("ACCESS-TOKEN",map.get("ACCESS-TOKEN"));
+        response.setHeader("REFRESH-TOKEN",map.get("REFRESH-TOKEN"));
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
 }

@@ -42,18 +42,11 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles= new ArrayList<>();
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-    }
-
-    public void setRefreshToken(String token){
-        this.refreshToken=token;
     }
 
     public void addPlee(Plee plee){
@@ -66,10 +59,11 @@ public class User implements UserDetails {
 
     @Builder
     public User(String username, String password, List<String> roles){
-        this.username=username;
-        this.password=password;
-        this.roles=roles;
+            this.username=username;
+            this.password=password;
+            this.roles=roles;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return false;
