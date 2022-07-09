@@ -18,10 +18,10 @@ import java.util.*;
 public class JwtTokenProvider {
 
     @Value("${accesstoken.secret}")
-    private String accessToken;
+    private String accessTokenKey;
 
     @Value("${refreshtoken.secret")
-    private String refreshToken;
+    private String refreshTokenKey;
 
     private final Long ACCESS_TOKEN_TIME = 60 * 30 *1000L; //accessToken 유효시간 30분
     private final Long REFRESH_TOKEN_TIME = 60 * 60 * 24 * 30 * 1000L; //유효시간 1달
@@ -32,8 +32,8 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        accessToken = Base64.getEncoder().encodeToString(accessToken.getBytes());
-        refreshToken = Base64.getEncoder().encodeToString(accessToken.getBytes());
+        accessTokenKey = Base64.getEncoder().encodeToString(accessTokenKey.getBytes());
+        refreshTokenKey = Base64.getEncoder().encodeToString(accessTokenKey.getBytes());
     }
 
     public Map<String, String> createToken(String UserPk, List<String> roles) {
@@ -44,13 +44,13 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_TIME))
-                .signWith(SignatureAlgorithm.HS256, accessToken)
+                .signWith(SignatureAlgorithm.HS256, accessTokenKey)
                 .compact();
         String refreshToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_TIME))
-                .signWith(SignatureAlgorithm.HS256, this.refreshToken)
+                .signWith(SignatureAlgorithm.HS256, this.refreshTokenKey)
                 .compact();
         Map<String, String> map = new HashMap<>();
         map.put("ACCESS-TOKEN", accestToken);
@@ -59,12 +59,16 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = (UserDetails) userRepository.findByUsername(this.getUserPk(token)).get();
+        UserDetails userDetails = (UserDetails) userRepository.findByUsername(this.getUserPkAccessToken(token)).get();
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUserPk(String token){
-        return Jwts.parser().setSigningKey(accessToken).parseClaimsJws(token).getBody().getSubject();
+    public String getUserPkAccessToken(String token){
+        return Jwts.parser().setSigningKey(accessTokenKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getUserPkRefreshToken(String token){
+        return Jwts.parser().setSigningKey(refreshTokenKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -73,7 +77,7 @@ public class JwtTokenProvider {
 
     public boolean validateAccessToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(accessToken).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(accessTokenKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
@@ -81,7 +85,7 @@ public class JwtTokenProvider {
     }
     public boolean validateRefreshToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(refreshToken).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(refreshTokenKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;

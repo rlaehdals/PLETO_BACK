@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,4 +138,20 @@ public class UserServiceImpl implements UserService{
         Map<String, String> map = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
         return map;
     }
+
+    @Override
+    public String useRefreshTokenForAccessToken(String refreshToken) throws UsernameNotFoundException, BadCredentialsException {
+        Map<String, String> token = new HashMap<>();
+        if(jwtTokenProvider.validateRefreshToken(refreshToken)){
+            String email = jwtTokenProvider.getUserPkRefreshToken(refreshToken);
+            User user = userRepository.findByUsername(email)
+                    .orElseThrow(() -> {
+                        throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
+                    });
+            token = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        }
+        return token.get("ACCESS-TOKEN");
+    }
+
+
 }

@@ -1,8 +1,5 @@
 package gugus.pleco.util.jwt;
 
-import gugus.pleco.domain.user.domain.User;
-import gugus.pleco.util.excetion.JwtRefreshTokenNotFoundUsername;
-import gugus.pleco.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -11,9 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor

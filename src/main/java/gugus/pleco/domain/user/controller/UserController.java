@@ -56,10 +56,19 @@ public class UserController {
     @Log
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException {
+    public ResponseEntity<String> login(@RequestBody UserDto userDto, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException {
         Map<String, String> map = userService.login(userDto.getEmail(), userDto.getPassword());
         response.setHeader("ACCESS-TOKEN",map.get("ACCESS-TOKEN"));
         response.setHeader("REFRESH-TOKEN",map.get("REFRESH-TOKEN"));
+        return new ResponseEntity<String>("ok",HttpStatus.OK);
+    }
+
+    @Log
+    @PostMapping("/refresh")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> refreshToken(@RequestParam(name = "refreshToken") String refreshToken, HttpServletResponse response) throws UsernameNotFoundException, BadCredentialsException {
+        String s = userService.useRefreshTokenForAccessToken(refreshToken);
+        response.setHeader("ACCESS-TOKEN",s);
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
 }

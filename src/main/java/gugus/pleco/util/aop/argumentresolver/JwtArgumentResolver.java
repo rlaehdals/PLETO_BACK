@@ -29,6 +29,6 @@ public class JwtArgumentResolver implements HandlerMethodArgumentResolver {
         if(token==null){
             return null;
         }
-        return new JwtDto(jwtTokenProvider.getUserPk(token));
+        return new JwtDto(jwtTokenProvider.getUserPkAccessToken(token));
     }
 }

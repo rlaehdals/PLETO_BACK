@@ -14,6 +14,7 @@ public interface UserService extends UserDetailsService {
 
 
     Map<String,String> login(String email, String password) throws UsernameNotFoundException, BadCredentialsException;
+    String useRefreshTokenForAccessToken(String refreshToken) throws UsernameNotFoundException, BadCredentialsException;
 
     boolean checkEmail(String email) throws UserDuplicatedException;
 }

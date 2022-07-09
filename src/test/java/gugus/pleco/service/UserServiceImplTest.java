@@ -3,7 +3,7 @@ package gugus.pleco.service;
 import gugus.pleco.domain.user.dto.UserDto;
 import gugus.pleco.domain.user.domain.User;
 import gugus.pleco.domain.user.service.UserService;
-import gugus.pleco.util.excetion.UserDupulicatedException;
+import gugus.pleco.util.excetion.UserDuplicatedException;
 import gugus.pleco.util.jwt.JwtTokenProvider;
 import gugus.pleco.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -94,7 +94,7 @@ class UserServiceImplTest {
         //생성
         UserDto userDto = new UserDto("rkdlem48@gmail.com", "asdf");
         //실행
-        assertThrows(UserDupulicatedException.class, () -> userService.join(userDto.getEmail(), userDto.getPassword()));
+        assertThrows(UserDuplicatedException.class, () -> userService.join(userDto.getEmail(), userDto.getPassword()));
     }
 
     @Test
