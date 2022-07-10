@@ -38,14 +38,14 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username){
         return userRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("등록되지 않은 아이디입니다. "));
     }
 
     @Log
     @Override
-    public User join(String email, String password) throws UserDuplicatedException {
+    public User join(String email, String password){
         userRepository.findByUsername(email)
                 .ifPresent(m->{
                     throw new UserDuplicatedException("이미 존재하는 아이디 입니다.");
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public boolean checkEmail(String email) throws UserDuplicatedException {
+    public boolean checkEmail(String email){
         userRepository.findByUsername(email).ifPresent(
                 m -> {
                     throw new UserDuplicatedException("이미 있는 아이디입니다.");
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService{
 
     @Log
     @Override
-    public Map<String,String> login(String email, String password) throws UsernameNotFoundException, BadCredentialsException{
+    public Map<String,String> login(String email, String password){
         User user = userRepository.findByUsername(email)
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("등록되지 않은 아이디입니다.");
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String useRefreshTokenForAccessToken(String refreshToken) throws UsernameNotFoundException, BadCredentialsException {
+    public String useRefreshTokenForAccessToken(String refreshToken){
         Map<String, String> token = new HashMap<>();
         if(jwtTokenProvider.validateRefreshToken(refreshToken)){
             String email = jwtTokenProvider.getUserPkRefreshToken(refreshToken);
